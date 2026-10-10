@@ -1,12 +1,12 @@
 package com.serfagab.app.model
 
 data class OrdenCompra(
-    val idOrdenCompra: Int?,
-    val proveedor: Proveedor?,
-    val usuario: Usuario?,
-    val fecha: String?,
-    val estado: String?,
-    val total: Double?,
+    val idOrdenCompra: Int = 0,
+    val proveedor: Proveedor,
+    val usuario: Usuario,
     val observaciones: String?,
-    val detalles: List<DetalleOrdenCompra>?
+    val fecha: String,
+    val total: Double,
+    val estado: String,
+    val detalles: List<DetalleOrdenCompra>
 )
