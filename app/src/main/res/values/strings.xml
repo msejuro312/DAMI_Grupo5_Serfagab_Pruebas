@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SerfagabApp</string>
+    <string name="titulo_login">SERFAGAB</string>
+    <string name="etiqueta_usuario">Usuario</string>
+    <string name="etiqueta_clave">Contraseña</string>
+    <string name="boton_ingresar">Ingresar</string>
+    <string name="error_campo_usuario">Ingrese su usuario</string>
+    <string name="error_campo_clave">Ingrese su contraseña</string>
+    <string name="error_credenciales">Usuario o contraseña incorrectos</string>
+    <string name="error_conexion">No se pudo conectar con el servidor</string>
+    <string name="error_respuesta_invalida">La respuesta del servidor no es válida</string>
+    <string name="error_usuario_inactivo">Usuario inactivo</string>
+    <string name="error_generico">No se pudo completar la operación</string>
 </resources>
