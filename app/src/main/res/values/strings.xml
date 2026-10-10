@@ -11,4 +11,10 @@
     <string name="error_respuesta_invalida">La respuesta del servidor no es válida</string>
     <string name="error_usuario_inactivo">Usuario inactivo</string>
     <string name="error_generico">No se pudo completar la operación</string>
+    <string name="boton_inicio">Inicio</string>
+    <string name="boton_materiales">Materiales</string>
+    <string name="boton_tipos">Tipos</string>
+    <string name="boton_proveedores">Proveedores</string>
+    <string name="boton_ordenes">Órdenes</string>
+
 </resources>

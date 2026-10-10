@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Botón de navegación en estado normal -->
+    <style name="BotonDestino" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/gap_small</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">@dimen/padding_boton_destino</item>
+        <item name="android:paddingEnd">@dimen/padding_boton_destino</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/radius_boton_destino</item>
+    </style>
+
+    <!--Botón de navegación en estado activo (sección abierta) -->
+    <style name="BotonDestinoActivo" parent="Widget.Material3.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/gap_small</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">@dimen/padding_boton_destino</item>
+        <item name="android:paddingEnd">@dimen/padding_boton_destino</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/radius_boton_destino</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+
+
+</resources>

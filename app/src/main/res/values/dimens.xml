@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="gap_small">8dp</dimen>
+    <dimen name="gap_medium">16dp</dimen>
+    <dimen name="padding_boton_destino">16dp</dimen>
+    <dimen name="radius_boton_destino">20dp</dimen>
+    <dimen name="text_body">14sp</dimen>
+</resources>
