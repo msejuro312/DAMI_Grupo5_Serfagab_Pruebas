@@ -2,6 +2,7 @@ package com.serfagab.app.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,11 +11,9 @@ import com.serfagab.app.MainActivity
 import com.serfagab.app.R
 import com.serfagab.app.databinding.ActivityLoginBinding
 import com.serfagab.app.model.Usuario
-import com.serfagab.app.remote.LoginRequest
-import com.serfagab.app.remote.RetrofitClient
+import com.serfagab.app.remote.ApiClient
+import com.serfagab.app.remote.Respuesta
 import com.serfagab.app.util.SessionStore
-import java.io.IOException
-import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,6 +31,13 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
         binding.btnIngresar.setOnClickListener { iniciarSesion() }
+        restaurarSesionSiExiste()
+    }
+
+    private fun restaurarSesionSiExiste() {
+        if (SessionStore.restaurarSesion(this)) {
+            abrirMainActivity()
+        }
     }
 
     private fun iniciarSesion() {
@@ -39,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
             return
         }
 
-        binding.tvMensaje.visibility = android.view.View.INVISIBLE
+        binding.tvMensaje.visibility = View.INVISIBLE
         val login = binding.etUsuario.text?.toString()?.trim().orEmpty()
         val clave = binding.etClave.text?.toString().orEmpty()
 
@@ -52,21 +58,18 @@ class LoginActivity : AppCompatActivity() {
         SessionStore.limpiarCredencialesMemoria()
 
         Thread {
-            try {
-                val respuesta = RetrofitClient.apiService.login(LoginRequest(login, clave)).execute()
-                runOnUiThread {
-                    procesarRespuesta(respuesta, login, clave)
-                }
-            } catch (e: IOException) {
-                runOnUiThread {
-                    mostrarEstadoCarga(false)
-                    mostrarMensaje(getString(R.string.error_conexion))
-                }
+            val respuesta = try {
+                ApiClient.login(login, clave)
             } catch (e: Exception) {
-                runOnUiThread {
-                    mostrarEstadoCarga(false)
-                    mostrarMensaje(getString(R.string.error_respuesta_invalida))
-                }
+                Respuesta<Usuario>(
+                    false,
+                    null,
+                    ApiClient.CODIGO_ERROR_RESPUESTA,
+                    getString(R.string.error_respuesta_invalida)
+                )
+            }
+            runOnUiThread {
+                procesarRespuesta(respuesta, login, clave)
             }
         }.start()
     }
@@ -88,11 +91,11 @@ class LoginActivity : AppCompatActivity() {
         return valido
     }
 
-    private fun procesarRespuesta(respuesta: Response<Usuario>, login: String, clave: String) {
+    private fun procesarRespuesta(respuesta: Respuesta<Usuario>, login: String, clave: String) {
         try {
-            if (respuesta.isSuccessful) {
-                val usuario = respuesta.body()
-                if (usuario == null) {
+            if (respuesta.exito) {
+                val usuario = respuesta.datos
+                if (usuario == null || usuario.idUsuario == null || usuario.idUsuario <= 0) {
                     mostrarMensaje(getString(R.string.error_respuesta_invalida))
                 } else if (usuario.activo != true) {
                     val mensaje = if (usuario.activo == false) {
@@ -105,10 +108,13 @@ class LoginActivity : AppCompatActivity() {
                     SessionStore.guardarSesion(this, usuario, login, clave)
                     abrirMainActivity()
                 }
-            } else if (respuesta.code() == 401) {
-                mostrarMensaje(getString(R.string.error_credenciales))
             } else {
-                mostrarMensaje(getString(R.string.error_generico))
+                when (respuesta.codigo) {
+                    401 -> mostrarMensaje(getString(R.string.error_credenciales))
+                    ApiClient.CODIGO_ERROR_CONEXION -> mostrarMensaje(getString(R.string.error_conexion))
+                    ApiClient.CODIGO_ERROR_RESPUESTA -> mostrarMensaje(getString(R.string.error_respuesta_invalida))
+                    else -> mostrarMensaje(getString(R.string.error_generico))
+                }
             }
         } catch (e: Exception) {
             mostrarMensaje(getString(R.string.error_respuesta_invalida))
@@ -124,13 +130,13 @@ class LoginActivity : AppCompatActivity() {
 
     private fun mostrarMensaje(mensaje: String) {
         binding.tvMensaje.text = mensaje
-        binding.tvMensaje.visibility = android.view.View.VISIBLE
+        binding.tvMensaje.visibility = View.VISIBLE
     }
 
     private fun mostrarEstadoCarga(cargando: Boolean) {
         peticionEnCurso = cargando
         binding.btnIngresar.isEnabled = !cargando
         binding.progressCargando.visibility =
-            if (cargando) android.view.View.VISIBLE else android.view.View.GONE
+            if (cargando) View.VISIBLE else View.GONE
     }
 }
