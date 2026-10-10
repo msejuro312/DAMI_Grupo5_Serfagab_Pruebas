@@ -58,4 +58,63 @@ class OrdenDetalleStore(context: Context){
     }
 
 
+    fun borrarDe(
+        db: SQLiteDatabase,
+        idOrdenCompra: Int
+    ): Int {
+        return db.delete(
+            Contract.TABLA_DETALLE_ORDEN,
+            "${Contract.COLUMNA_DETALLE_ORDEN_ID_ORDEN} = ?",
+            arrayOf(idOrdenCompra.toString())
+        )
+    }
+
+    fun obtenerDe(orden: OrdenCompra):
+            List<com.serfagab.app.model.DetalleOrdenCompra> {
+        val detalles = mutableListOf<com.serfagab.app.model.DetalleOrdenCompra>()
+        val materialesPorId = MaterialStore(appContext).obtenerTodos().associateBy { it.idMaterial }
+
+        dbHelper.readableDatabase.query(
+            Contract.TABLA_DETALLE_ORDEN,
+            null,
+            "${Contract.COLUMNA_DETALLE_ORDEN_ID_ORDEN} = ?",
+            arrayOf(orden.idOrdenCompra.toString()),
+            null,
+            null,
+            "${Contract.COLUMNA_DETALLE_ORDEN_ID} ASC"
+        ).use { cursor ->
+            while (cursor.moveToNext()) {
+                val idMaterial = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(Contract.COLUMNA_DETALLE_ORDEN_ID_MATERIAL)
+                )
+
+                val material = materialesPorId[idMaterial] ?: continue
+
+                detalles.add(
+                    com.serfagab.app.model.DetalleOrdenCompra(
+                        idDetalle = cursor.getInt(
+                            cursor.getColumnIndexOrThrow(
+                                Contract.COLUMNA_DETALLE_ORDEN_ID
+                            )
+                        ),
+
+                        material = material,
+                        ordenCompra = orden,
+                        cantidad = cursor.getDouble(
+                            cursor.getColumnIndexOrThrow(Contract.COLUMNA_DETALLE_ORDEN_CANTIDAD)
+                        ),
+                        precioUnitario = cursor.getDouble(
+                            cursor.getColumnIndexOrThrow(Contract.COLUMNA_DETALLE_ORDEN_PRECIO)
+                        ),
+                        subtotal = cursor.getDouble(cursor.getColumnIndexOrThrow(Contract.COLUMNA_DETALLE_ORDEN_SUBTOTAL))
+                    )
+                )
+            }
+        }
+
+        return detalles
+
+    }
+
+
 }
