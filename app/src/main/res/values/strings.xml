@@ -1,14 +1,117 @@
 <resources>
-    <string name="app_name">SerfagabApp</string>
-    <string name="titulo_login">SERFAGAB</string>
-    <string name="etiqueta_usuario">Usuario</string>
-    <string name="etiqueta_clave">Contraseña</string>
-    <string name="boton_ingresar">Ingresar</string>
-    <string name="error_campo_usuario">Ingrese su usuario</string>
-    <string name="error_campo_clave">Ingrese su contraseña</string>
+    <string name="app_name">Serfagab</string>
+    <string name="valor_no_disponible">Pendiente</string>
+    <string name="dialogo_boton_aceptar">Aceptar</string>
+    <!--STRINGS DE LOGIN-->
+    <string name="name_empresa">SERFAGAB</string>
+    <string name="descripcion_empresa">Gestion de Compras</string>
+    <string name="usuario_login">Usuario</string>
+    <string name="contraseña_login">Contraseña</string>
+    <string name="button_ingresar">Ingresar →</string>
+    <string name="login_version">SERFABAG S.A.C.-Version 1.0</string>
+    <string name="hint_nombre_usuario">Coloque el nombre de Usuario</string>
+    <string name="hint_password">Coloque la contraseña </string>
+
+    <!--STRING DE MAIN-->
+    <string name="bienvenida_predeterminada">SERFAGAB - Bienvenido, ""</string>
+    <string name="nav_bar_inicio">Inicio</string>
+    <string name="nav_bar_material">Material</string>
+    <string name="nav_bar_tipomaterial">Tipo Material</string>
+    <string name="nav_bar_proveedor">Proveedores</string>
+    <string name="nav_bar_ordencompra">Ordenes de Compra</string>
+    <string name="abrir_menu">Abrir menú</string>
+    <string name="nav_bar_cerrar_sesion">Cerrar Sesion</string>
+    <string name="cerrando_sesion">Cerrando sesion</string>
+    <string name="weight_navbar">1</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="titulo_inicio_fragment">Sistema de Gestión SERFAGAB</string>
+    <string name="bienvenida_ininicio_text">Bienvenido, ""</string>
+    <string name="titulo_resumen">RESUMEN</string>
+    <string name="titulo_accesos">ACCESOS RAPIDOS</string>
+    <string name="contador_fragment">--</string>
+    <string name="contador_titulo_material">Materiales</string>
+    <string name="contador_titulo_proveedor">Proveedores</string>
+    <string name="contador_titulo_tipomaterial">Tipos de Material</string>
+    <string name="contador_titulo_ordenes">Ordenes de Compras</string>
+    <string name="contador_titulo_ordenes_pendientes">Ordenes Pendientes</string>
+    <string name="acceso_rapido_ordenes">Nueva Orden de Compra</string>
+    <string name="acceso_rapido_ordenes_description">Registrar una compra</string>
+    <string name="acceso_rapido_material">Nuevo Material</string>
+    <string name="acceso_rapido_material_description">Registrar un material</string>
+
+    <!--MATERIALFRAGMENT-->
+    <string name="titulo_materiales">MATERIALES</string>
+    <string name="buscador_hint">Escriba nombre del material</string>
+    <string name="hint_nombre_material">Nombre</string>
+    <string name="hint_unidad_medida">Unidad de medida</string>
+    <string name="hint_stock_actual">Stock actual</string>
+    <string name="hint_precio_referencial">Precio referencial</string>
+    <string name="hint_descripcion">Descripción</string>
+    <string name="label_tipo_material">Tipo de material</string>
+    <string name="label_nombre">Nombre</string>
+    <string name="label_descripcion">Descripcion</string>
+    <string name="resultado_detalle_predeterminado">Predeterminado</string>
+    <string name="sin_materiales">No hay materiales registrados</string>
+
+    <!-- ITEM:MATERIAL-->
+    <string name="numero_id">Material #0</string>
+    <string name="producto_predeterminado">Predeterminado</string>
+    <string name="producto_estado_predeterminado">Estado</string>
+    <string name="label_unidad">Unidad</string>
+    <string name="label_stock">Stock</string>
+    <string name="label_precio_ref">Precio</string>
+    <string name="resultado_unidad_inicial">--</string>
+    <string name="resultado_stock_inicial">00</string>
+    <string name="resultado_precio_inicial">S/ 0</string>
+    <string name="tipo_material_predeterminado">Plancha</string>
+    <string name="descripcion_material_predeterminado">Predeterminado</string>
+
+    <!--PROVEEDORFRAGMENT-->
+    <string name="titulo_proveedores">PROVEEDORES</string>
+    <string name="buscador_hint_proveedor">Buscar por razón social</string>
+    <string name="label_razon_social">Razón social</string>
+    <string name="label_ruc">RUC</string>
+    <string name="label_celular">Celular</string>
+    <string name="label_email">Correo</string>
+    <string name="sin_proveedores">No hay proveedores registrados</string>
+
+    <!--ITEM:PROVEEDOR-->
+    <string name="numero_id_proveedor">Proveedor #0</string>
+    <string name="codigo_formato_proveedor">Proveedor #%1$d</string>
+    <string name="razon_predeterminado">Predeterminado</string>
+    <string name="ruc_predeterminado">-----------</string>
+    <string name="celular_predeterminado">---------</string>
+    <string name="email_predeterminado">Prederterminado</string>
+    <string name="estado_predeterminado_proveedor">Estado</string>
+    <string name="descripcion_proveedor_predeterminado">Predeterminado</string>
+
+    <!--TIPOMATERIALFRAGMENT-->
+    <string name="titulo_tipo_material">TIPOS DE MATERIAL</string>
+    <string name="buscador_hint_tipo_material">Buscar tipo de material</string>
+    <string name="sin_tipos_material">No hay tipos de material registrados</string>
+
+    <!--ITEM:TIPOMATERIAL-->
+    <string name="numero_id_tipomaterial">Tipo Material #0</string>
+    <string name="codigo_formato_tipomaterial">Tipo Material #%1$d</string>
+    <string name="tipomaterial_predeterminado">Predeterminado</string>
+    <string name="descripcion_tipomaterial_predeterminado">Predeterminado</string>
+    <string name="estado_predeterminado_tipomaterial">Estado</string>
+    <string name="estado_activo">Activo</string>
+    <string name="estado_inactivo">Inactivo</string>
+    <string name="sin_descripcion">Sin descripción</string>
+    <string name="filtro_todos">Todos</string>
+    <string name="filtro_activos">Activos</string>
+    <string name="filtro_inactivos">Inactivos</string>
+
+    <!--LOGINACTIVITY-->
+    <string name="error_usuario_vacio">Ingresa tu usuario</string>
+    <string name="error_password_vacio">Ingresa tu contraseña</string>
     <string name="error_credenciales">Usuario o contraseña incorrectos</string>
-    <string name="error_conexion">No se pudo conectar con el servidor</string>
-    <string name="error_respuesta_invalida">La respuesta del servidor no es válida</string>
-    <string name="error_usuario_inactivo">Usuario inactivo</string>
-    <string name="error_generico">No se pudo completar la operación</string>
+
+    <!--MAINACTIVITY-->
+    <string name="bienvenida_formato">Bienvenido, %1$s %2$s</string>
+    <string name="modulo_no_disponible">Módulo no disponible</string>
+
 </resources>

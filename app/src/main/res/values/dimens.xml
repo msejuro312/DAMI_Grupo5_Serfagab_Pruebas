@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--DIMENS DE LOGIN-->
+    <dimen name="padding_content">24dp</dimen>
+    <dimen name="size_titulo">25sp</dimen>
+    <dimen name="radius_content_login">25dp</dimen>
+    <dimen name="dimen_ic_logo">64dp</dimen>
+    <dimen name="top_margin_description">4dp</dimen>
+    <dimen name="top_margin_user_password">32dp</dimen>
+    <dimen name="top_margin_version">30dp</dimen>
+    <dimen name="button_dimen">56dp</dimen>
+    <dimen name="button_margintop">40dp</dimen>
+    <dimen name="size_version">11sp</dimen>
+
+    <!--DIMENS DE MAIN-->
+    <dimen name="dimen_image">16dp</dimen>
+    <dimen name="menu_icon_dimen">48dp</dimen>
+    <dimen name="magin_bottom">15dp</dimen>
+    <dimen name="magin_bottom_card">6dp</dimen>
+    <dimen name="dimen_view">18dp</dimen>
+    <dimen name="dimen_view2">14dp</dimen>
+    <dimen name="dimen_image_view_card">14dp</dimen>
+    <dimen name="size_navbar_text">9sp</dimen>
+    <dimen name="size_name_text">10sp</dimen>
+    <dimen name="size_description_text">11sp</dimen>
+    <dimen name="size_inicio_titulo">16sp</dimen>
+    <dimen name="margin_description_inicio">4dp</dimen>
+    <dimen name="padding_fragment_inicio">12dp</dimen>
+    <dimen name="padding_card_white">10dp</dimen>
+    <dimen name="size_subtitulo_inicio">14sp</dimen>
+    <dimen name="view_marginend">8dp</dimen>
+    <dimen name="text_size_item">12sp</dimen>
+    <dimen name="text_size_item_estado">8sp</dimen>
+    <dimen name="layout_filtro">34dp</dimen>
+    <dimen name="dimen_image_view">20dp</dimen>
+
+    <!--DIMENS DE DIALOG-->
+    <dimen name="dialog_padding">20dp</dimen>
+    <dimen name="gap_small">4dp</dimen>
+    <dimen name="gap_medium">14dp</dimen>
+    <dimen name="text_body">12sp</dimen>
+
+
+</resources>

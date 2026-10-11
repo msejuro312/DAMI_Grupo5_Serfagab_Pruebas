@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_header_inicio"
+            android:padding="@dimen/dimen_image">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/titulo_inicio_fragment"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_inicio_titulo"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/textViewBienvidaInicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_description_inicio"
+                android:textColor="@color/gris_claro"
+                android:textSize="@dimen/size_description_text"
+                tools:text="@string/bienvenida_ininicio_text"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_resumen"
+            android:textColor="@color/color_header_1"
+            android:textSize="@dimen/size_subtitulo_inicio"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="6dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_fragment_inicio">
+
+            <LinearLayout
+                android:id="@+id/cardMateriales"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/margin_description_inicio"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:padding="@dimen/padding_card_white"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_view"
+                    android:layout_height="@dimen/dimen_view"
+                    android:src="@drawable/ic_material"
+                    app:tint="@color/color_header_2"/>
+
+                <TextView
+                    android:id="@+id/textViewCountMateriales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_description_inicio"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    android:textStyle="bold"
+                    tools:text="@string/contador_fragment"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contador_titulo_material"
+                    android:textColor="@color/color_header_1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardProveedores"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/margin_description_inicio"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:padding="@dimen/padding_card_white"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_view"
+                    android:layout_height="@dimen/dimen_view"
+                    android:src="@drawable/ic_proveedor"
+                    app:tint="@color/color_header_2"/>
+
+                <TextView
+                    android:id="@+id/textViewCountProveedores"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_description_inicio"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    android:textStyle="bold"
+                    tools:text="@string/contador_fragment"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contador_titulo_proveedor"
+                    android:textColor="@color/color_header_1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/padding_fragment_inicio">
+
+            <LinearLayout
+                android:id="@+id/cardTipoMaterial"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/margin_description_inicio"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:padding="@dimen/padding_card_white"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_view"
+                    android:layout_height="@dimen/dimen_view"
+                    android:src="@drawable/ic_tipomaterial"
+                    app:tint="@color/color_header_2"/>
+
+                <TextView
+                    android:id="@+id/textViewCountTipoMaterial"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_description_inicio"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    android:textStyle="bold"
+                    tools:text="@string/contador_fragment"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contador_titulo_tipomaterial"
+                    android:textColor="@color/color_header_1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cardOrdenes"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/margin_description_inicio"
+                android:orientation="vertical"
+                android:background="@drawable/bg_card_white"
+                android:padding="@dimen/padding_card_white"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_view"
+                    android:layout_height="@dimen/dimen_view"
+                    android:src="@drawable/ic_ordencompra"
+                    app:tint="@color/color_header_2"/>
+
+                <TextView
+                    android:id="@+id/textViewCountOrdenes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_description_inicio"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    android:textStyle="bold"
+                    tools:text="@string/contador_fragment"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contador_titulo_ordenes"
+                    android:textColor="@color/color_header_1"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_accesos"
+            android:textColor="@color/color_header_1"
+            android:textSize="@dimen/size_subtitulo_inicio"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="6dp" />
+
+        <LinearLayout
+            android:id="@+id/accesoNuevaOrden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_card_white"
+            android:padding="@dimen/padding_card_white"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="@dimen/magin_bottom_card">
+
+            <View
+                android:layout_width="3dp"
+                android:layout_height="30dp"
+                android:background="@color/naranja"
+                android:layout_marginEnd="@dimen/view_marginend"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen_view"
+                android:layout_height="@dimen/dimen_view"
+                android:background="@drawable/ic_logo_cube"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acceso_rapido_ordenes"
+                    android:textColor="@color/color_header_2"
+                    android:textSize="@dimen/size_description_text"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acceso_rapido_ordenes_description"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/dimen_image_view_card"
+                android:layout_height="@dimen/dimen_image_view_card"
+                android:src="@drawable/ic_ordencompra"
+                app:tint="@color/naranja"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/accesoNuevaMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_card_white"
+            android:padding="@dimen/padding_card_white"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="@dimen/magin_bottom_card">
+
+            <View
+                android:layout_width="3dp"
+                android:layout_height="30dp"
+                android:background="@color/naranja"
+                android:layout_marginEnd="@dimen/view_marginend"/>
+
+            <ImageView
+                android:layout_width="@dimen/dimen_view"
+                android:layout_height="@dimen/dimen_view"
+                android:background="@drawable/ic_logo_cube"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acceso_rapido_material"
+                    android:textColor="@color/color_header_2"
+                    android:textSize="@dimen/size_description_text"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acceso_rapido_material_description"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/dimen_image_view_card"
+                android:layout_height="@dimen/dimen_image_view_card"
+                android:src="@drawable/ic_material"
+                app:tint="@color/naranja"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardPendientes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_card_pendientes"
+            android:padding="@dimen/padding_card_white"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/top_margin_description">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_ordencompra"
+                app:tint="@color/naranja"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewCountPendientes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="@string/contador_fragment"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/contador_titulo_ordenes_pendientes"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_navbar_text"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

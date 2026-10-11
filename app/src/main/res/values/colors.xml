@@ -2,4 +2,19 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!--COLORES DE LOGIN-->
+    <color name="white_login">#D6D6D6</color>
+    <color name="azul_login">#16213e</color>
+    <!---->
+
+    <color name="naranja">#d97706</color>
+    <color name="azul_oscuro">#1a1a2e</color>
+    <color name="white_content">#E8E8E8</color>
+    <color name="negro_navbar">#1A1A1A</color>
+    <color name="color_header_1">#16213E</color>
+    <color name="color_header_2">#0F1729</color>
+    <color name="gris_claro">#CCCCCC</color>
+    <color name="card_pendientes">#FFF8EC</color>
+    <color name="color_verde">#0FF71C</color>
+    <color name="color_rojo">#F20F0F</color>
 </resources>
