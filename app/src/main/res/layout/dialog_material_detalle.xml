@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/dialog_padding">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_nombre"
+            android:textColor="@color/color_header_2"
+            android:textSize="@dimen/size_subtitulo_inicio"/>
+
+        <TextView
+            android:id="@+id/textViewDetalleNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="@dimen/dimen_view2"
+            android:textColor="@color/negro_navbar"
+            android:textSize="@dimen/size_inicio_titulo"
+            android:textStyle="bold"
+            tools:text="@string/resultado_detalle_predeterminado"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_tipo_material"
+            android:textColor="@color/color_header_2"
+            android:textSize="@dimen/size_subtitulo_inicio"/>
+
+        <TextView
+            android:id="@+id/textViewDetalleTipo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="@dimen/dimen_view2"
+            android:textColor="@color/negro_navbar"
+            android:textSize="@dimen/size_inicio_titulo"
+            tools:text="@string/resultado_detalle_predeterminado"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/dimen_view2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_unidad"
+                    android:textColor="@color/color_header_2"
+                    android:textSize="@dimen/size_subtitulo_inicio"/>
+
+                <TextView
+                    android:id="@+id/textViewDetalleUnidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    tools:text="@string/resultado_detalle_predeterminado"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_stock"
+                    android:textColor="@color/color_header_2"
+                    android:textSize="@dimen/size_subtitulo_inicio"/>
+
+                <TextView
+                    android:id="@+id/textViewDetalleStock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_inicio_titulo"
+                    tools:text="@string/resultado_detalle_predeterminado"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_precio_ref"
+            android:textColor="@color/color_header_2"
+            android:textSize="@dimen/size_subtitulo_inicio"/>
+
+        <TextView
+            android:id="@+id/textViewDetallePrecio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="@dimen/dimen_view2"
+            android:textColor="@color/negro_navbar"
+            android:textSize="@dimen/size_inicio_titulo"
+            tools:text="@string/resultado_detalle_predeterminado"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_descripcion"
+            android:textColor="@color/color_header_2"
+            android:textSize="@dimen/size_subtitulo_inicio" />
+
+        <TextView
+            android:id="@+id/textViewDetalleDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/negro_navbar"
+            android:textSize="@dimen/size_inicio_titulo"
+            tools:text="@string/descripcion_material_predeterminado" />
+
+    </LinearLayout>
+</ScrollView>
