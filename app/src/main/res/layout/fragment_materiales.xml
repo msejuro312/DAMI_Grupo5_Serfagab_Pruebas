@@ -1,14 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.material.MaterialesFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_fragment_inicio"
+            android:paddingBottom="@dimen/magin_bottom_card"
+            android:text="@string/titulo_materiales"
+            android:textColor="@color/color_header_1"
+            android:textSize="@dimen/size_inicio_titulo"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/padding_fragment_inicio"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:background="@drawable/bg_buscador"
+                android:padding="@dimen/view_marginend"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dimen_view2"
+                    android:layout_height="@dimen/dimen_view2"
+                    android:src="@drawable/ic_buscador"
+                    app:tint="@color/negro_navbar" />
+
+                <EditText
+                    android:id="@+id/editTextBuscar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="6dp"
+                    android:background="@null"
+                    android:hint="@string/buscador_hint"
+                    android:textColor="@color/negro_navbar"
+                    android:textSize="@dimen/size_version"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"/>
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/btnFiltro"
+                android:layout_width="@dimen/layout_filtro"
+                android:layout_height="@dimen/layout_filtro"
+                android:layout_marginStart="6dp"
+                android:padding="7dp"
+                android:background="@drawable/bg_boton_filtro"
+                android:src="@drawable/ic_filtrar"
+                app:tint="@color/white"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_fragment_inicio"
+            android:paddingVertical="@dimen/view_marginend"
+            android:scrollbars="none">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupTipos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleLine="true"
+                app:singleSelection="true"/>
+
+        </HorizontalScrollView>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewMateriales"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/padding_fragment_inicio"
+                android:paddingBottom="70dp"
+                tools:listitem = "@layout/item_material"/>
+
+            <TextView
+                android:id="@+id/tvVacio"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/sin_materiales"
+                android:textColor="@color/negro_navbar"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNuevoMaterial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_crear"
+        app:tint="@color/negro_navbar"
+        app:backgroundTint="@color/naranja"/>
 
 </FrameLayout>

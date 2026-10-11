@@ -5,56 +5,122 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
+import androidx.core.widget.doAfterTextChanged
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.serfagab.app.R
+import com.serfagab.app.adapter.TipoMaterialAdapter
+import com.serfagab.app.databinding.FragmentTipoMaterialBinding
+import com.serfagab.app.local.TipoMaterialStore
+import com.serfagab.app.model.TipoMaterial
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TipoMaterialFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TipoMaterialFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding: FragmentTipoMaterialBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var tipoMaterialAdapter: TipoMaterialAdapter
+    private lateinit var tipoMaterialStore: TipoMaterialStore
+
+    private var listaCompleta: List<TipoMaterial> = emptyList()
+    private var filtroEstado = FILTRO_TODOS
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        tipoMaterialStore = TipoMaterialStore(requireContext().applicationContext)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tipo_material, container, false)
+        _binding = FragmentTipoMaterialBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        tipoMaterialAdapter = TipoMaterialAdapter { tipoMaterial ->
+        }
+
+        configurarRecyclerView()
+        configurarBuscador()
+        configurarFiltro()
+        cargarTiposMaterial()
+    }
+
+    private fun configurarRecyclerView() {
+        binding.recyclerViewTipoMaterial.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewTipoMaterial.adapter = tipoMaterialAdapter
+    }
+
+    private fun configurarBuscador() {
+        binding.editTextBuscar.doAfterTextChanged {
+            aplicarFiltros()
+        }
+    }
+
+    private fun configurarFiltro() {
+        binding.btnFiltro.setOnClickListener {
+            val menu = PopupMenu(requireContext(), binding.btnFiltro)
+            menu.menu.add(0, FILTRO_TODOS, 0, R.string.filtro_todos)
+            menu.menu.add(0, FILTRO_ACTIVOS, 1, R.string.filtro_activos)
+            menu.menu.add(0, FILTRO_INACTIVOS, 2, R.string.filtro_inactivos)
+
+            menu.setOnMenuItemClickListener { item ->
+                filtroEstado = item.itemId
+                aplicarFiltros()
+                true
+            }
+            menu.show()
+        }
+    }
+
+    private fun cargarTiposMaterial() {
+        Thread {
+            val tiposMaterial = tipoMaterialStore.obtenerTodos()
+
+            activity?.runOnUiThread {
+                if (_binding == null) return@runOnUiThread
+                listaCompleta = tiposMaterial
+                aplicarFiltros()
+            }
+        }.start()
+    }
+
+    private fun aplicarFiltros() {
+        val bindingActual = _binding ?: return
+        val texto = bindingActual.editTextBuscar.text.toString().trim().lowercase()
+
+        val listaFiltrada = listaCompleta.filter { tipoMaterial ->
+            val coincideTexto = tipoMaterial.nombre.lowercase().contains(texto)
+            val coincideEstado = when (filtroEstado) {
+                FILTRO_ACTIVOS -> tipoMaterial.activo
+                FILTRO_INACTIVOS -> !tipoMaterial.activo
+                else -> true
+            }
+            coincideTexto && coincideEstado
+        }
+
+        tipoMaterialAdapter.actualizar(listaFiltrada)
+        bindingActual.recyclerViewTipoMaterial.visibility =
+            if (listaFiltrada.isEmpty()) View.GONE else View.VISIBLE
+        bindingActual.tvVacio.visibility =
+            if (listaFiltrada.isEmpty()) View.VISIBLE else View.GONE
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TipoMaterialFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TipoMaterialFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        private const val FILTRO_TODOS = 0
+        private const val FILTRO_ACTIVOS = 1
+        private const val FILTRO_INACTIVOS = 2
     }
 }

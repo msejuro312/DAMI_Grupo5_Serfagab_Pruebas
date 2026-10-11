@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tipo.TipoMaterialFragment">
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_fragment_inicio"
+        android:paddingBottom="@dimen/magin_bottom_card"
+        android:text="@string/titulo_tipo_material"
+        android:textColor="@color/color_header_1"
+        android:textSize="@dimen/size_inicio_titulo"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/padding_fragment_inicio"
+        android:paddingBottom="@dimen/padding_fragment_inicio"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:background="@drawable/bg_buscador"
+            android:padding="@dimen/view_marginend"
+            android:gravity="center_vertical" >
+
+            <ImageView
+                android:layout_width="@dimen/dimen_view2"
+                android:layout_height="@dimen/dimen_view2"
+                android:src="@drawable/ic_buscador"
+                app:tint="@color/negro_navbar" />
+
+            <EditText
+                android:id="@+id/editTextBuscar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:background="@null"
+                android:hint="@string/buscador_hint_tipo_material"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_version"
+                android:inputType="text"
+                android:imeOptions="actionSearch" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnFiltro"
+            android:layout_width="@dimen/layout_filtro"
+            android:layout_height="@dimen/layout_filtro"
+            android:layout_marginStart="6dp"
+            android:padding="7dp"
+            android:background="@drawable/bg_boton_filtro"
+            android:src="@drawable/ic_filtrar"
+            app:tint="@color/white"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewTipoMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/padding_fragment_inicio"
+            android:paddingBottom="@dimen/padding_fragment_inicio"
+            tools:listitem="@layout/item_tipo_material" />
+
+        <TextView
+            android:id="@+id/tvVacio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/sin_tipos_material"
+            android:textColor="@color/negro_navbar"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</LinearLayout>

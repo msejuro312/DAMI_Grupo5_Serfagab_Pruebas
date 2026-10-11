@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_white"
+    android:padding="@dimen/dimen_view2"
+    android:layout_marginBottom="@dimen/padding_fragment_inicio">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/textViewId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/color_header_2"
+            android:textSize="@dimen/size_description_text"
+            android:textStyle="bold"
+            tools:text="@string/numero_id"/>
+        
+        <ImageView
+            android:id="@+id/btnEditar"
+            android:layout_width="@dimen/dimen_image_view"
+            android:layout_height="@dimen/dimen_image_view"
+            android:layout_marginEnd="@dimen/dimen_image_view_card"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/negro_navbar"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+        <ImageView
+            android:id="@+id/btnEliminarActivar"
+            android:layout_width="@dimen/dimen_image_view"
+            android:layout_height="@dimen/dimen_image_view"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/color_rojo"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_description_inicio"
+        android:textColor="@color/negro_navbar"
+        android:textSize="@dimen/size_inicio_titulo"
+        android:textStyle="bold"
+        android:text="@string/producto_predeterminado"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_unidad"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="@dimen/size_name_text"/>
+
+            <TextView
+                android:id="@+id/textViewUnidad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_description_text"
+                android:textStyle="bold"
+                tools:text="@string/resultado_unidad_inicial"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_stock"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="@dimen/size_name_text"/>
+
+            <TextView
+                android:id="@+id/textViewStock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_description_text"
+                android:textStyle="bold"
+                tools:text="@string/resultado_stock_inicial"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_precio_ref"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="@dimen/size_name_text"/>
+
+            <TextView
+                android:id="@+id/textViewPrecio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_description_text"
+                android:textStyle="bold"
+                tools:text="@string/resultado_precio_inicial"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/padding_card_white">
+
+        <TextView
+            android:id="@+id/textViewTipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_chip_tipo"
+            android:paddingHorizontal="@dimen/padding_card_white"
+            android:paddingVertical="@dimen/margin_description_inicio"
+            android:layout_marginEnd="6dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/size_navbar_text"
+            tools:text="@string/tipo_material_predeterminado"/>
+
+        <TextView
+            android:id="@+id/textViewEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_card_white"
+            android:paddingVertical="@dimen/margin_description_inicio"
+            android:textSize="@dimen/size_navbar_text"
+            android:textStyle="bold"
+            tools:text="@string/producto_estado_predeterminado"
+            tools:background="@drawable/bg_badge_activo"
+            tools:textColor="@color/color_verde"/>
+
+    </LinearLayout>
+
+</LinearLayout>

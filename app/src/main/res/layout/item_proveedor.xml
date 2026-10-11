@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_card_white"
+    android:padding="@dimen/dimen_view2"
+    android:layout_marginBottom="@dimen/padding_fragment_inicio">
+
+    <TextView
+        android:id="@+id/textViewId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_header_2"
+        android:textSize="@dimen/size_description_text"
+        android:textStyle="bold"
+        tools:text="@string/numero_id_proveedor" />
+
+    <TextView
+        android:id="@+id/textViewRazonSocial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_description_inicio"
+        android:textColor="@color/negro_navbar"
+        android:textSize="@dimen/size_inicio_titulo"
+        android:textStyle="bold"
+        tools:text="@string/razon_predeterminado" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_ruc"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="@dimen/size_name_text" />
+
+            <TextView
+                android:id="@+id/textViewRuc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_description_text"
+                android:textStyle="bold"
+                tools:text="@string/ruc_predeterminado" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_celular"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="@dimen/size_name_text" />
+
+            <TextView
+                android:id="@+id/textViewCelular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/negro_navbar"
+                android:textSize="@dimen/size_description_text"
+                android:textStyle="bold"
+                tools:text="@string/celular_predeterminado" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_email"
+        android:textColor="@color/azul_oscuro"
+        android:textSize="@dimen/size_name_text"/>
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/negro_navbar"
+        android:textSize="@dimen/size_description_text"
+        android:textStyle="bold"
+        tools:text="@string/email_predeterminado"/>
+
+    <TextView
+        android:id="@+id/textViewEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_card_white"
+        android:paddingHorizontal="@dimen/padding_card_white"
+        android:paddingVertical="@dimen/margin_description_inicio"
+        android:textSize="@dimen/size_navbar_text"
+        android:textStyle="bold"
+        tools:text="@string/estado_predeterminado_proveedor"
+        tools:background="@drawable/bg_badge_activo"
+        tools:textColor="@color/color_verde" />
+
+</LinearLayout>

@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 binding.buttonIngresar.isEnabled = true
 
                 if (!respuesta.exito || usuario == null) {
-                    Toast.makeText(this, R.string.error_credenciales, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, respuesta.mensaje, Toast.LENGTH_SHORT).show()
                 } else {
                     val intent = Intent(this, MainActivity::class.java).apply {
                         putExtra(MainActivity.EXTRA_ID_USUARIO, usuario.idUsuario)
