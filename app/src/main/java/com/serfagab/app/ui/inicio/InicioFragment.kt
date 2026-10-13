@@ -1,60 +1,67 @@
 package com.serfagab.app.ui.inicio
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.serfagab.app.R
+import com.serfagab.app.databinding.FragmentInicioBinding
+import com.serfagab.app.local.MaterialStore
+import com.serfagab.app.local.OrdenStore
+import com.serfagab.app.local.ProveedorStore
+import com.serfagab.app.local.TipoMaterialStore
+import com.serfagab.app.util.SessionStore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InicioFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InicioFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private var _binding: FragmentInicioBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_inicio, container, false)
+    ): View {
+        _binding = FragmentInicioBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment InicioFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            InicioFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mostrarBienvenida()
+        cargarConteos()
+    }
+
+    private fun mostrarBienvenida() {
+        val id = SessionStore.idUsuario(requireContext().applicationContext)
+        binding.textViewBienvidaInicio.text = getString(R.string.bienvenida_inicio_formato, id)
+    }
+
+    private fun cargarConteos() {
+        val contexto = requireContext().applicationContext
+        val idUsuario = SessionStore.idUsuario(contexto)
+
+        Thread {
+            val totalMateriales = MaterialStore(contexto).obtenerTodos().size
+            val totalProveedores = ProveedorStore(contexto).obtenerTodos().size
+            val totalTipos = TipoMaterialStore(contexto).obtenerTodos().size
+            val totalPendientes = OrdenStore(contexto).listarPendientes().size
+            // TODO E4: cuando Valerie agregue OrdenStore.listarDe(idUsuario), usarlo aquí
+            val totalOrdenes = 0
+
+            activity?.runOnUiThread {
+                val bindingActual = _binding ?: return@runOnUiThread
+                bindingActual.textViewCountMateriales.text = totalMateriales.toString()
+                bindingActual.textViewCountProveedores.text = totalProveedores.toString()
+                bindingActual.textViewCountTipoMaterial.text = totalTipos.toString()
+                bindingActual.textViewCountPendientes.text = totalPendientes.toString()
+                bindingActual.textViewCountOrdenes.text = totalOrdenes.toString()
             }
+        }.start()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

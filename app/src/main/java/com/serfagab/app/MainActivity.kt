@@ -16,6 +16,7 @@ import com.serfagab.app.ui.material.MaterialesFragment
 import com.serfagab.app.ui.proveedor.ProveedoresFragment
 import com.serfagab.app.ui.tipo.TipoMaterialFragment
 import com.serfagab.app.util.SessionStore
+import com.serfagab.app.ui.orden.OrdenFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -71,8 +72,9 @@ class MainActivity : AppCompatActivity() {
         binding.itemProveedores.root.setOnClickListener {
             mostrarFragmento(ProveedoresFragment())
         }
+
         binding.itemOrdenCompra.root.setOnClickListener {
-            Toast.makeText(this, R.string.modulo_no_disponible, Toast.LENGTH_SHORT).show()
+            mostrarFragmento(OrdenFragment())
         }
 
         binding.itemCerrarSesion.setOnClickListener {
