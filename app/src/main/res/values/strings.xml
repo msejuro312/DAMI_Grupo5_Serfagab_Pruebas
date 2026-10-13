@@ -114,4 +114,7 @@
     <string name="bienvenida_formato">Bienvenido, %1$s %2$s</string>
     <string name="modulo_no_disponible">Módulo no disponible</string>
 
+
+    <string name="bienvenida_inicio_formato">Bienvenido, usuario %d</string>
+
 </resources>
