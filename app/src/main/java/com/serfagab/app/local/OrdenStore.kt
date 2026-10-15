@@ -295,6 +295,30 @@ class OrdenStore(context: Context) {
         }
 
         return tipo
+
+
+    }
+
+    fun listarDe(idUsuario: Int): List<OrdenCompra>{
+        val ordenes = mutableListOf<OrdenCompra>()
+
+        dbHelper.readableDatabase.query(
+            Contract.TABLA_ORDEN_COMPRA,
+            null,
+            "${Contract.COLUMNA_ORDEN_COMPRA_ID_USUARIO} = ?",
+            arrayOf(idUsuario.toString()),
+            null,
+            null,
+            "${Contract.COLUMNA_ORDEN_COMPRA_FECHA} DESC"
+        ).use { cursor ->
+            while (cursor.moveToNext()) {
+                val id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_ID)
+                )
+                obtenerPorId(id)?.let { ordenes.add(it) }
+            }
+        }
+        return ordenes
     }
 
 
