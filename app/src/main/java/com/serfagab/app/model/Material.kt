@@ -9,5 +9,6 @@ data class Material(
     val precioReferencial: Double,
     val descripcion: String?,
     val version: Int = 0,
-    val activo: Boolean
+    val activo: Boolean,
+    @Transient val pendienteSync: Boolean = false
 )

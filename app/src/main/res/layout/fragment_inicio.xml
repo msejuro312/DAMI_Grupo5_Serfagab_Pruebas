@@ -59,19 +59,19 @@
                 android:id="@+id/cardMateriales"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/margin_description_inicio"
-                android:orientation="vertical"
+                android:layout_weight="1"
                 android:background="@drawable/bg_card_white"
-                android:padding="@dimen/padding_card_white"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card_white">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_view"
                     android:layout_height="@dimen/dimen_view"
                     android:src="@drawable/ic_material"
-                    app:tint="@color/color_header_2"/>
+                    app:tint="@color/color_header_2" />
 
                 <TextView
                     android:id="@+id/textViewCountMateriales"
@@ -81,15 +81,15 @@
                     android:textColor="@color/negro_navbar"
                     android:textSize="@dimen/size_inicio_titulo"
                     android:textStyle="bold"
-                    tools:text="@string/contador_fragment"/>
+                    tools:text="@string/contador_fragment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/contador_titulo_material"
                     android:textColor="@color/color_header_1"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/size_navbar_text"/>
+                    android:textSize="@dimen/size_navbar_text"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -97,19 +97,19 @@
                 android:id="@+id/cardProveedores"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="@dimen/margin_description_inicio"
-                android:orientation="vertical"
+                android:layout_weight="1"
                 android:background="@drawable/bg_card_white"
-                android:padding="@dimen/padding_card_white"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_card_white">
 
                 <ImageView
                     android:layout_width="@dimen/dimen_view"
                     android:layout_height="@dimen/dimen_view"
                     android:src="@drawable/ic_proveedor"
-                    app:tint="@color/color_header_2"/>
+                    app:tint="@color/color_header_2" />
 
                 <TextView
                     android:id="@+id/textViewCountProveedores"
@@ -119,15 +119,15 @@
                     android:textColor="@color/negro_navbar"
                     android:textSize="@dimen/size_inicio_titulo"
                     android:textStyle="bold"
-                    tools:text="@string/contador_fragment"/>
+                    tools:text="@string/contador_fragment" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/contador_titulo_proveedor"
                     android:textColor="@color/color_header_1"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/size_navbar_text"/>
+                    android:textSize="@dimen/size_navbar_text"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -380,6 +380,25 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSincronizar"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_dimen"
+            android:layout_marginTop="6dp"
+            android:text="@string/sincronizar_ahora"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/textViewEstadoSincronizacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_description_inicio"
+            android:layout_marginBottom="@dimen/padding_fragment_inicio"
+            android:text="@string/sincronizacion_sin_ejecutar"
+            android:textColor="@color/negro_navbar"
+            android:textSize="@dimen/size_navbar_text" />
 
     </LinearLayout>
 
