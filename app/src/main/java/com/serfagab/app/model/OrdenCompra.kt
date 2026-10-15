@@ -8,5 +8,6 @@ data class OrdenCompra(
     val fecha: String,
     val total: Double,
     val estado: String,
-    val detalles: List<DetalleOrdenCompra>
+    val detalles: List<DetalleOrdenCompra>,
+    @Transient val pendienteSync: Boolean = false
 )

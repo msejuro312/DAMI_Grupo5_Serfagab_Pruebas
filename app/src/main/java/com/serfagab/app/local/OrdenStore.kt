@@ -138,6 +138,8 @@ class OrdenStore(context: Context) {
                         cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_ESTADO)
                     ),
 
+                    pendienteSync = cursor.getInt(cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC)) == 1,
+
                     detalles = emptyList()
                 )
 
@@ -320,6 +322,8 @@ class OrdenStore(context: Context) {
         }
         return ordenes
     }
+
+    fun esEditable(orden: OrdenCompra): Boolean = orden.estado.equals("PENDIENTE", ignoreCase = true) && !orden.pendienteSync
 
 
 
