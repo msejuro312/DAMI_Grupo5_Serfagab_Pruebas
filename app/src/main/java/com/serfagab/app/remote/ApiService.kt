@@ -14,6 +14,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -55,4 +56,15 @@ interface ApiService {
         @Path("idOrden") idOrden: Int,
         @Body detalle: DetalleOrdenCompra
     ): Call<DetalleOrdenCompra>
+
+    @PUT("api/ordenes-compra/{idOrden}")
+    fun editarOrden(@Path("idOrden") idOrden: Int, @Body orden: OrdenCompra): Call<OrdenCompra>
+
+    @DELETE("api/ordenes-compra/{idOrden}")
+    fun borrarOrden(@Path("idOrden") idOrden: Int): Call<Void>
+
+    @PUT("api/ordenes-compra/{idOrden}/estado")
+    fun cambiarEstado(@Path("idOrden")idOrden: Int,@Query("estado") estado: String): Call<OrdenCompra>
+
+
 }

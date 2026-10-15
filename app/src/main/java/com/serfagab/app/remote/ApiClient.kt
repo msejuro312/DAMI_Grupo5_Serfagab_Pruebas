@@ -126,4 +126,15 @@ object ApiClient {
             else -> "No se pudo completar la operacion (codigo $codigo)"
         }
     }
+
+    fun editarOrden(idOrden: Int, orden: OrdenCompra): Respuesta<OrdenCompra> = ejecutar(apiService.editarOrden(idOrden, orden))
+
+    fun borrarOrden(idOrden: Int): Respuesta<Boolean> {
+        val respuesta = ejecutar(apiService.borrarOrden(idOrden))
+        return Respuesta(respuesta.exito, respuesta.exito, respuesta.codigo, respuesta.mensaje)
+    }
+
+    fun cambiarEstado(idOrden: Int, estado: String):
+            Respuesta<OrdenCompra> =
+        ejecutar(apiService.cambiarEstado(idOrden, estado))
 }
