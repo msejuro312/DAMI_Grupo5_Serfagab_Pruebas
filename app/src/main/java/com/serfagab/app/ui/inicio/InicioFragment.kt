@@ -58,8 +58,7 @@ class InicioFragment : Fragment() {
             val totalProveedores = ProveedorStore(contexto).obtenerTodos().size
             val totalTipos = TipoMaterialStore(contexto).obtenerTodos().size
             val totalPendientes = OrdenStore(contexto).listarPendientes().size
-            // TODO E4: cuando Valerie agregue OrdenStore.listarDe(idUsuario), usarlo aquí
-            val totalOrdenes = 0
+            val totalOrdenes = OrdenStore(contexto).listarDe(idUsuario).size
 
             activity?.runOnUiThread {
                 val bindingActual = _binding ?: return@runOnUiThread
