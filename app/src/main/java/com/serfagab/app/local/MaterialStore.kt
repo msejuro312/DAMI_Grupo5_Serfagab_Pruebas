@@ -21,6 +21,7 @@ class MaterialStore(context: Context) {
             put(Contract.COLUMNA_MATERIAL_DESCRIPCION, material.descripcion)
             put(Contract.COLUMNA_MATERIAL_VERSION, material.version)
             put(Contract.COLUMNA_MATERIAL_ACTIVO, if (material.activo) 1 else 0)
+            put(Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC, if (material.pendienteSync) 1 else 0)
         }
 
         return dbHelper.writableDatabase.insert(
@@ -42,7 +43,8 @@ class MaterialStore(context: Context) {
             Contract.COLUMNA_MATERIAL_PRECIO,
             Contract.COLUMNA_MATERIAL_DESCRIPCION,
             Contract.COLUMNA_MATERIAL_VERSION,
-            Contract.COLUMNA_MATERIAL_ACTIVO
+            Contract.COLUMNA_MATERIAL_ACTIVO,
+            Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC
         )
 
         dbHelper.readableDatabase.query(
@@ -63,6 +65,7 @@ class MaterialStore(context: Context) {
             val indiceDescripcion = cursor.getColumnIndexOrThrow(Contract.COLUMNA_MATERIAL_DESCRIPCION)
             val indiceVersion = cursor.getColumnIndexOrThrow(Contract.COLUMNA_MATERIAL_VERSION)
             val indiceActivo = cursor.getColumnIndexOrThrow(Contract.COLUMNA_MATERIAL_ACTIVO)
+            val indicePendiente = cursor.getColumnIndexOrThrow(Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC)
 
             while (cursor.moveToNext()) {
                 val idTipo = cursor.getInt(indiceIdTipo)
@@ -79,7 +82,8 @@ class MaterialStore(context: Context) {
                         precioReferencial = cursor.getDouble(indicePrecio),
                         descripcion = cursor.getString(indiceDescripcion) ?: "",
                         activo = cursor.getInt(indiceActivo) == 1,
-                        version = cursor.getInt(indiceVersion)
+                        version = cursor.getInt(indiceVersion),
+                        pendienteSync = cursor.getInt(indicePendiente) == 1
                     )
                 )
             }
@@ -97,6 +101,7 @@ class MaterialStore(context: Context) {
             put(Contract.COLUMNA_MATERIAL_DESCRIPCION, material.descripcion)
             put(Contract.COLUMNA_MATERIAL_VERSION, material.version)
             put(Contract.COLUMNA_MATERIAL_ACTIVO, if (material.activo) 1 else 0)
+            put(Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC, if (material.pendienteSync) 1 else 0)
         }
 
         return dbHelper.writableDatabase.update(
@@ -110,6 +115,7 @@ class MaterialStore(context: Context) {
     fun desactivar(idMaterial: Int): Int {
         val valores = ContentValues().apply {
             put(Contract.COLUMNA_MATERIAL_ACTIVO, 0)
+            put(Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC, 1)
         }
         return dbHelper.writableDatabase.update(
             Contract.TABLA_MATERIAL,
@@ -122,6 +128,7 @@ class MaterialStore(context: Context) {
     fun activar(idMaterial: Int): Int {
         val valores = ContentValues().apply {
             put(Contract.COLUMNA_MATERIAL_ACTIVO, 1)
+            put(Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC, 1)
         }
         return dbHelper.writableDatabase.update(
             Contract.TABLA_MATERIAL,
@@ -132,11 +139,60 @@ class MaterialStore(context: Context) {
     }
 
     fun reemplazarTodos(materiales: List<Material>) {
+        val idsPendientes = obtenerPendientes().map { it.idMaterial }.toSet()
+        val inactivosLocales = obtenerTodos().filter { !it.activo && !it.pendienteSync }
+        val idsServidor = materiales.map { it.idMaterial }.toSet()
+        val inactivosNoRecibidos = inactivosLocales.filter { it.idMaterial !in idsServidor }
+
         val db = dbHelper.writableDatabase
         db.beginTransaction()
         try {
-            db.delete(Contract.TABLA_MATERIAL, null, null)
-            materiales.forEach { agregar(it) }
+            db.delete(
+                Contract.TABLA_MATERIAL,
+                "${Contract.COLUMNA_MATERIAL_PENDIENTE_SYNC} = 0",
+                null
+            )
+
+            val materialesAInterior = (
+                    materiales + inactivosNoRecibidos
+                    )
+                .filter { it.idMaterial !in idsPendientes }
+                .distinctBy { it.idMaterial }
+
+            materialesAInterior.forEach { material ->
+                agregar(material.copy(pendienteSync = false))
+            }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    fun crearLocal(material: Material): Long {
+        return agregar(material.copy(idMaterial = siguienteIdTemporal(), pendienteSync = true))
+    }
+
+    private fun siguienteIdTemporal(): Int {
+        val minimo = obtenerTodos().minOfOrNull { it.idMaterial } ?:0
+        return if (minimo < 0) minimo - 1 else -2
+    }
+
+    fun obtenerPendientes(): List<Material> {
+        return obtenerTodos()
+            .filter { it.pendienteSync }
+            .sortedBy { it.idMaterial }
+    }
+
+    fun confirmarSincronizado(idLocal: Int, materialServidor: Material) {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            db.delete(
+                Contract.TABLA_MATERIAL,
+                "${Contract.COLUMNA_MATERIAL_ID} = ?",
+                arrayOf(idLocal.toString())
+            )
+            agregar(materialServidor.copy(pendienteSync = false))
             db.setTransactionSuccessful()
         } finally {
             db.endTransaction()

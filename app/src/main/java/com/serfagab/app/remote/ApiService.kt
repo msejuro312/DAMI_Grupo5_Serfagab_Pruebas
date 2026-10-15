@@ -8,8 +8,11 @@ import com.serfagab.app.model.TipoMaterial
 import com.serfagab.app.model.Usuario
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -19,6 +22,18 @@ interface ApiService {
 
     @GET("api/materiales")
     fun listarMateriales(): Call<List<Material>>
+
+    @POST("api/materiales")
+    fun crearMaterial(@Body material: Material): Call<Material>
+
+    @PUT("api/materiales/{id}")
+    fun actualizarMaterial(@Path("id") id: Int, @Body material: Material): Call<Material>
+
+    @DELETE("api/materiales/{id}")
+    fun desactivarMaterial(@Path("id") id: Int): Call<Material>
+
+    @PATCH("api/materiales/{id}/activar")
+    fun activarMaterial(@Path("id") id: Int): Call<Material>
 
     @GET("api/tipos-material")
     fun listarTiposMaterial(): Call<List<TipoMaterial>>

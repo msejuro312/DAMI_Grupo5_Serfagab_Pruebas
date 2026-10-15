@@ -54,6 +54,28 @@
     <string name="label_descripcion">Descripcion</string>
     <string name="resultado_detalle_predeterminado">Predeterminado</string>
     <string name="sin_materiales">No hay materiales registrados</string>
+    <string name="codigo_formato_material">Material #%1$d</string>
+    <string name="material_pendiente_formato">Material #%1$d · Pendiente de sincronizar</string>
+    <string name="material_nuevo_pendiente">Nuevo material · Pendiente de sincronizar</string>
+    <string name="material_guardado_local">Guardado. Se sincronizará con el servidor</string>
+    <string name="precio_formato">S/ %1$.2f</string>
+    <string name="chip_todos_tipos">Todos</string>
+    <string name="dialogo_material_nuevo">Nuevo Material</string>
+    <string name="dialogo_material_editar">Editar Material</string>
+    <string name="boton_crear">Crear</string>
+    <string name="boton_actualizar">Actualizar</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="boton_confirmar">Confirmar</string>
+    <string name="confirmar_inactivar_material">¿Inactivar el material %1$s?</string>
+    <string name="confirmar_activar_material">¿Activar el material %1$s?</string>
+    <string name="error_material_nombre">El nombre es obligatorio</string>
+    <string name="error_material_unidad">La unidad de medida es obligatorio</string>
+    <string name="error_material_tipo">Debe seleccionar un tipo de material</string>
+    <string name="error_material_stock">El stock debe ser mayor a 0</string>
+    <string name="error_material_precio">El precio debe ser mayor a 0</string>
+    <string name="error_material_guardar">No se pudo guardar el material</string>
+    <string name="error_sin_tipos_material">No hay tipos de material registrados</string>
+    <string name="stock_formato">%1$.2f</string>
 
     <!-- ITEM:MATERIAL-->
     <string name="numero_id">Material #0</string>
@@ -116,5 +138,12 @@
 
 
     <string name="bienvenida_inicio_formato">Bienvenido, usuario %d</string>
+
+    <!--SINCRONIZACION-->
+    <string name="sincronizar_ahora">Sincronizar ahora</string>
+    <string name="sincronizacion_sin_ejecutar">Aún no se ha sincronizado</string>
+    <string name="sincronizacion_programada">Sincronización programada...</string>
+    <string name="sincronizacion_no_programada">No se pudo programar la sincronización</string>
+    <string name="sincronizacion_ultima_formato">Última sincronización: %1$s</string>
 
 </resources>

@@ -41,6 +41,22 @@ object ApiClient {
         return ejecutar(apiService.listarMateriales())
     }
 
+    fun crearMaterial(material: Material): Respuesta<Material> {
+        return ejecutar(apiService.crearMaterial(material))
+    }
+
+    fun actualizarMaterial(id: Int, material: Material): Respuesta<Material> {
+        return ejecutar(apiService.actualizarMaterial(id, material))
+    }
+
+    fun desactivarMaterial(id: Int): Respuesta<Material> {
+        return ejecutar(apiService.desactivarMaterial(id))
+    }
+
+    fun activarMaterial(id: Int): Respuesta<Material> {
+        return ejecutar(apiService.activarMaterial(id))
+    }
+
     fun obtenerMateriales(): Respuesta<List<Material>> {
         return listarMateriales()
     }
