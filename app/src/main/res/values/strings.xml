@@ -160,7 +160,7 @@
     <string name="orden_total">Total</string>
     <string name="orden_estado">Estado</string>
     <string name="orden_pendiente_sync">Pendiente de sincronizar</string>
-    <string name="orden_crear">Nueva orden</string>}
+    <string name="orden_crear">Nueva orden</string>
     <string name="orden_editar">Editar orden</string>
     <string name="orden_borrar">Eliminar orden</string>
     <string name="orden_confirmar_borrar">¿Deseas eliminar esta orden de compra?</string>

@@ -98,7 +98,26 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
     }
 
     override fun onEditar(orden: OrdenCompra) {
-        //Manuel : abrir el formulario para editar la orden
+        if (!OrdenStore(requireContext().applicationContext).esEditable(orden)){
+            Toast.makeText(
+                requireContext(),
+                "Solo se pueden editar órdenes PENDIENTE sin sincronizar",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val formulario = OrdenFormularioFragment().apply {
+            arguments = Bundle().apply {
+                putInt(OrdenFormularioFragment.ARG_ID_ORDEN, orden.idOrdenCompra)
+            }
+        }
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.ContenedorFragmento,formulario)
+            .addToBackStack(null)
+            .commit()
+
     }
 
     override fun onBorrar(orden: OrdenCompra) {
