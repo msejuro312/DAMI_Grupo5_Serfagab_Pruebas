@@ -131,6 +131,12 @@
     <string name="error_usuario_vacio">Ingresa tu usuario</string>
     <string name="error_password_vacio">Ingresa tu contraseña</string>
     <string name="error_credenciales">Usuario o contraseña incorrectos</string>
+    <string name="login_divisor_google">o continúa con Google</string>
+    <string name="button_google">Entrar con Google</string>
+    <string name="google_login_cancelado">Inicio de sesión con Google cancelado</string>
+    <string name="google_login_sin_token">Google no devolvió una credencial válida</string>
+    <string name="google_login_error">No se pudo iniciar sesión con Google</string>
+    <string name="google_login_error_guardar">No se pudo guardar la sesión local. Intenta nuevamente</string>
 
     <!--MAINACTIVITY-->
     <string name="bienvenida_formato">Bienvenido, %1$s %2$s</string>
