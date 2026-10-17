@@ -10,12 +10,21 @@ import androidx.fragment.app.Fragment
 import com.serfagab.app.R
 import com.serfagab.app.databinding.FragmentOrdenFormularioBinding
 import com.serfagab.app.local.MaterialStore
+import com.serfagab.app.local.OrdenStore
 import com.serfagab.app.local.ProveedorStore
+import com.serfagab.app.model.DetalleOrdenCompra
 import com.serfagab.app.model.Material
+import com.serfagab.app.model.OrdenCompra
 import com.serfagab.app.model.Proveedor
+import com.serfagab.app.util.SessionStore
+import java.time.LocalDate
 import java.util.Locale
 
 class OrdenFormularioFragment : Fragment() {
+
+    companion object {
+        const val ARG_ID_ORDEN = "id_orden_editar"
+    }
 
     private var _binding: FragmentOrdenFormularioBinding? = null
     private val binding get() = _binding!!
@@ -25,6 +34,8 @@ class OrdenFormularioFragment : Fragment() {
 
     private val materialesSeleccionados = mutableListOf<Material>()
     private val cantidades = mutableListOf<Double>()
+
+    private var ordenEditando: OrdenCompra? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +54,11 @@ class OrdenFormularioFragment : Fragment() {
         cargarProveedores()
         cargarMateriales()
 
+        val idOrden = arguments?.getInt(ARG_ID_ORDEN, -1) ?: -1
+        if (idOrden != -1) {
+            cargarOrdenParaEditar(idOrden)
+        }
+
         binding.buttonAgregarLinea.setOnClickListener {
             agregarLinea()
         }
@@ -52,11 +68,7 @@ class OrdenFormularioFragment : Fragment() {
         }
 
         binding.buttonGuardarOrden.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "El guardado se conectará durante la integración.",
-                Toast.LENGTH_LONG
-            ).show()
+            guardar()
         }
     }
 
@@ -96,6 +108,50 @@ class OrdenFormularioFragment : Fragment() {
         }
     }
 
+    private fun cargarOrdenParaEditar(idOrden: Int) {
+        val contexto = requireContext().applicationContext
+
+        Thread {
+            val orden = OrdenStore(contexto).obtenerPorId(idOrden)
+
+            if (_binding == null) return@Thread
+
+            activity?.runOnUiThread {
+                if (orden == null) {
+                    Toast.makeText(
+                        requireContext(),
+                        "No se pudo cargar la orden",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    parentFragmentManager.popBackStack()
+                    return@runOnUiThread
+                }
+
+                ordenEditando = orden
+                binding.textViewTituloFormulario.text =
+                    getString(R.string.orden_editar)
+                binding.buttonGuardarOrden.text = getString(R.string.orden_guardar_cambios)
+
+                val posicion = proveedores.indexOfFirst {
+                    it.idProveedor == orden.proveedor.idProveedor
+                }
+                if (posicion >= 0) {
+                    binding.spinnerProveedor.setSelection(posicion)
+                }
+
+                binding.editTextObservaciones.setText(orden.observaciones ?: "")
+
+                orden.detalles.forEach { detalle ->
+                    materialesSeleccionados.add(detalle.material)
+                    cantidades.add(detalle.cantidad)
+                    mostrarLineaEnContenedor(detalle.material, detalle.cantidad)
+                }
+
+                actualizarTotal()
+            }
+        }.start()
+    }
+
     private fun agregarLinea() {
         if (materiales.isEmpty()) {
             Toast.makeText(
@@ -125,9 +181,25 @@ class OrdenFormularioFragment : Fragment() {
 
         val material = materiales[posicion]
 
+        if (materialesSeleccionados.any { it.idMaterial == material.idMaterial }) {
+            Toast.makeText(
+                requireContext(),
+                "Ese material ya está en la orden",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         materialesSeleccionados.add(material)
         cantidades.add(cantidad)
 
+        mostrarLineaEnContenedor(material, cantidad)
+
+        actualizarTotal()
+        binding.editTextCantidad.text?.clear()
+    }
+
+    private fun mostrarLineaEnContenedor(material: Material, cantidad: Double) {
         val linea = LayoutInflater.from(requireContext()).inflate(
             R.layout.item_linea_orden,
             binding.contenedorLineasOrden,
@@ -148,8 +220,114 @@ class OrdenFormularioFragment : Fragment() {
 
         binding.contenedorLineasOrden.addView(linea)
 
+        linea.findViewById<android.widget.Button>(R.id.buttonQuitarLinea).setOnClickListener {
+            quitarLinea(material, linea)
+        }
+    }
+
+    private fun quitarLinea(material: Material, vistaLinea: View) {
+        val indice = materialesSeleccionados.indexOfFirst {
+            it.idMaterial == material.idMaterial
+        }
+        if (indice == -1) return
+
+        materialesSeleccionados.removeAt(indice)
+        cantidades.removeAt(indice)
+        binding.contenedorLineasOrden.removeView(vistaLinea)
         actualizarTotal()
-        binding.editTextCantidad.text?.clear()
+    }
+
+    private fun guardar() {
+        if (materialesSeleccionados.isEmpty()) {
+            Toast.makeText(
+                requireContext(),
+                "Agrega al menos un material a la orden",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val posicionProveedor = binding.spinnerProveedor.selectedItemPosition
+        if (posicionProveedor !in proveedores.indices) return
+
+        val proveedor = proveedores[posicionProveedor]
+        val observacionesTexto =
+            binding.editTextObservaciones.text.toString().trim()
+        val observaciones = observacionesTexto.ifEmpty { null }
+        val contexto = requireContext().applicationContext
+        val ordenAnterior = ordenEditando
+
+        binding.buttonGuardarOrden.isEnabled = false
+
+        Thread {
+            val usuario = ordenAnterior?.usuario
+                ?: OrdenStore(contexto)
+                    .obtenerUsuario(SessionStore.idUsuario(contexto))
+                ?: SessionStore.datosUsuario(contexto)?.also {
+                    OrdenStore(contexto).guardarUsuarioLocal(it)
+                }
+
+            if (usuario == null) {
+                if (_binding == null) return@Thread
+                activity?.runOnUiThread {
+                    binding.buttonGuardarOrden.isEnabled = true
+                    Toast.makeText(
+                        requireContext(),
+                        "No se encontró el usuario de sesión",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@Thread
+            }
+
+            val total = materialesSeleccionados.indices.sumOf { indice ->
+                materialesSeleccionados[indice].precioReferencial *
+                        cantidades[indice]
+            }
+
+            val ordenBase = OrdenCompra(
+                idOrdenCompra = ordenAnterior?.idOrdenCompra ?: 0,
+                proveedor = proveedor,
+                usuario = usuario,
+                observaciones = observaciones,
+                fecha = ordenAnterior?.fecha ?: LocalDate.now().toString(),
+                total = total,
+                estado = ordenAnterior?.estado ?: "PENDIENTE",
+                detalles = emptyList()
+            )
+
+            val detalles = materialesSeleccionados.indices.map { indice ->
+                val material = materialesSeleccionados[indice]
+                val cantidad = cantidades[indice]
+                DetalleOrdenCompra(
+                    material = material,
+                    ordenCompra = ordenBase,
+                    cantidad = cantidad,
+                    precioUnitario = material.precioReferencial,
+                    subtotal = material.precioReferencial * cantidad
+                )
+            }
+
+            val ordenFinal = ordenBase.copy(detalles = detalles)
+            val store = OrdenStore(contexto)
+
+            if (ordenAnterior != null) {
+                store.actualizar(ordenFinal)
+            } else {
+                store.insertarOrden(ordenFinal)
+            }
+
+            if (_binding == null) return@Thread
+            activity?.runOnUiThread {
+                Toast.makeText(
+                    requireContext(),
+                    if (ordenAnterior != null) "Orden actualizada"
+                    else "Orden creada",
+                    Toast.LENGTH_SHORT
+                ).show()
+                parentFragmentManager.popBackStack()
+            }
+        }.start()
     }
 
     private fun actualizarTotal() {

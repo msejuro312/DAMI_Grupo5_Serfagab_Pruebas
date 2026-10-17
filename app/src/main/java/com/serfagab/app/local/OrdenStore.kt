@@ -138,6 +138,8 @@ class OrdenStore(context: Context) {
                         cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_ESTADO)
                     ),
 
+                    pendienteSync = cursor.getInt(cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC)) == 1,
+
                     detalles = emptyList()
                 )
 
@@ -236,7 +238,7 @@ class OrdenStore(context: Context) {
         )
     }
 
-    private fun obtenerUsuario(idUsuario: Int): Usuario? {
+    fun obtenerUsuario(idUsuario: Int): Usuario? {
         var usuario: Usuario? = null
         dbHelper.readableDatabase.query(
             Contract.TABLA_USUARIO,
@@ -295,6 +297,49 @@ class OrdenStore(context: Context) {
         }
 
         return tipo
+
+
+    }
+
+    fun listarDe(idUsuario: Int): List<OrdenCompra>{
+        val ordenes = mutableListOf<OrdenCompra>()
+
+        dbHelper.readableDatabase.query(
+            Contract.TABLA_ORDEN_COMPRA,
+            null,
+            "${Contract.COLUMNA_ORDEN_COMPRA_ID_USUARIO} = ?",
+            arrayOf(idUsuario.toString()),
+            null,
+            null,
+            "${Contract.COLUMNA_ORDEN_COMPRA_FECHA} DESC"
+        ).use { cursor ->
+            while (cursor.moveToNext()) {
+                val id = cursor.getInt(
+                    cursor.getColumnIndexOrThrow(Contract.COLUMNA_ORDEN_COMPRA_ID)
+                )
+                obtenerPorId(id)?.let { ordenes.add(it) }
+            }
+        }
+        return ordenes
+    }
+
+    fun esEditable(orden: OrdenCompra): Boolean = orden.estado.equals("PENDIENTE", ignoreCase = true) && orden.pendienteSync
+
+
+    fun guardarUsuarioLocal(usuario: Usuario): Long {
+        val valores = ContentValues().apply {
+            put(Contract.COLUMNA_USUARIO_ID, usuario.idUsuario)
+            put(Contract.COLUMNA_USUARIO_ID_TIPO, usuario.tipo.idTipo)
+            put(Contract.COLUMNA_USUARIO_NOMBRES, usuario.nombres)
+            put(Contract.COLUMNA_USUARIO_APELLIDOS, usuario.apellidos)
+            put(Contract.COLUMNA_USUARIO_EMAIL, usuario.email)
+            put(Contract.COLUMNA_USUARIO_LOGIN, usuario.login)
+            put(Contract.COLUMNA_USUARIO_CLAVE, usuario.clave)
+            put(Contract.COLUMNA_USUARIO_ACTIVO, if (usuario.activo) 1 else 0)
+        }
+        return dbHelper.writableDatabase.insertWithOnConflict(
+            Contract.TABLA_USUARIO, null, valores, SQLiteDatabase.CONFLICT_REPLACE
+        )
     }
 
 

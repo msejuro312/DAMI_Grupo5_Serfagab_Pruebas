@@ -175,7 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:backgroundTint="@color/naranja"
-            android:text="@string/orden_crear"
+            android:text="@string/orden_guardar"
             android:textColor="@color/white"/>
 
         <Button

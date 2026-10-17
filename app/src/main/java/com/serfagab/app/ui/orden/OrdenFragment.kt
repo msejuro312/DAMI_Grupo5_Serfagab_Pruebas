@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.serfagab.app.R
 import com.serfagab.app.adapter.OnOrdenAccion
 import com.serfagab.app.adapter.OrdenCompraAdapter
 import com.serfagab.app.databinding.FragmentOrdenBinding
+import com.serfagab.app.local.OrdenStore
 import com.serfagab.app.model.OrdenCompra
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.serfagab.app.util.SessionStore
 
 
@@ -27,15 +29,15 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentOrdenBinding.inflate(inflater, container,false)
+        _binding = FragmentOrdenBinding.inflate(inflater, container, false)
         return binding.root
-}
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view, savedInstanceState)
 
         configurarLista()
-        mostrarListaVacia()
+        cargarOrdenes()
 
         binding.fabNuevaOrden.visibility =
             if (puedeGestionar()) View.VISIBLE else View.GONE
@@ -48,12 +50,13 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
         }
 
 
-
     }
-    private fun configurarLista(){
+
+    private fun configurarLista() {
         adapter = OrdenCompraAdapter(
             this,
-            puedeGestionar = puedeGestionar())
+            puedeGestionar = puedeGestionar()
+        )
 
         binding.recyclerOrdenes.layoutManager =
             LinearLayoutManager(requireContext())
@@ -66,29 +69,83 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
     }
 
 
-
-
-    private fun mostrarListaVacia() {
-        binding.progressIndicator.visibility = View.GONE
-        binding.textViewListaVacia.visibility = View.VISIBLE
+    private fun cargarOrdenes() {
+        binding.progressIndicator.visibility = View.VISIBLE
+        binding.textViewListaVacia.visibility = View.GONE
         binding.recyclerOrdenes.visibility = View.GONE
+
+        val contexto = requireContext().applicationContext
+
+        Thread {
+            val ordenes = OrdenStore(contexto)
+                .listarDe(SessionStore.idUsuario(contexto))
+
+            if (_binding == null) return@Thread
+
+            activity?.runOnUiThread {
+                binding.progressIndicator.visibility = View.GONE
+
+                if (ordenes.isEmpty()) {
+                    binding.textViewListaVacia.visibility = View.VISIBLE
+                    binding.recyclerOrdenes.visibility = View.GONE
+                } else {
+                    binding.textViewListaVacia.visibility = View.GONE
+                    binding.recyclerOrdenes.visibility = View.VISIBLE
+                    adapter.actualizar(ordenes)
+                }
+            }
+        }.start()
     }
 
     override fun onEditar(orden: OrdenCompra) {
-        //Manuel : abrir el formulario para editar la orden
+        if (!OrdenStore(requireContext().applicationContext).esEditable(orden)){
+            Toast.makeText(
+                requireContext(),
+                "Solo se pueden editar órdenes PENDIENTE sin sincronizar",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
+        val formulario = OrdenFormularioFragment().apply {
+            arguments = Bundle().apply {
+                putInt(OrdenFormularioFragment.ARG_ID_ORDEN, orden.idOrdenCompra)
+            }
+        }
+
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.ContenedorFragmento,formulario)
+            .addToBackStack(null)
+            .commit()
+
     }
 
     override fun onBorrar(orden: OrdenCompra) {
         val dialogView = LayoutInflater.from(requireContext())
-            .inflate(R.layout.dialog_confirmar_borrar,null,false)
+            .inflate(R.layout.dialog_confirmar_borrar, null, false)
 
         MaterialAlertDialogBuilder(requireContext())
             .setView(dialogView)
             .setNegativeButton(R.string.boton_cancelar, null)
-            .setPositiveButton(R.string.boton_confirmar) {  _, _ ->
-                //MANUEL conectar OrdenStore.borrar(id).
+            .setPositiveButton(R.string.boton_confirmar) { _, _ ->
+                if (!OrdenStore(requireContext().applicationContext).esEditable(orden)) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Solo se pueden borrar órdenes PENDIENTE sin sincronizar",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setPositiveButton
+                }
+                val contexto = requireContext().applicationContext
+
+                Thread {
+                    OrdenStore(contexto).borrar(orden.idOrdenCompra)
+                    if (_binding == null) return@Thread
+                    activity?.runOnUiThread { cargarOrdenes() }
+                }.start()
             }
             .show()
+
 
     }
 
