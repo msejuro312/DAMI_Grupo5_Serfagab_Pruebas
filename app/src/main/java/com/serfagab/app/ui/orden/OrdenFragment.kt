@@ -12,6 +12,7 @@ import com.serfagab.app.adapter.OrdenCompraAdapter
 import com.serfagab.app.databinding.FragmentOrdenBinding
 import com.serfagab.app.model.OrdenCompra
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.serfagab.app.util.SessionStore
 
 class OrdenFragment : Fragment(), OnOrdenAccion {
 
@@ -35,9 +36,14 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
         configurarLista()
         mostrarListaVacia()
 
+        binding.fabNuevaOrden.visibility =
+            if (puedeGestionar()) View.VISIBLE else View.GONE
+
         binding.fabNuevaOrden.setOnClickListener {
             //Manuel e6
         }
+
+
 
     }
     private fun configurarLista(){
@@ -48,6 +54,13 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
 
         binding.recyclerOrdenes.adapter = adapter
     }
+
+    private fun puedeGestionar(): Boolean {
+        return SessionStore.esAdmin(requireContext())
+    }
+
+
+
 
     private fun mostrarListaVacia() {
         binding.progressIndicator.visibility = View.GONE
