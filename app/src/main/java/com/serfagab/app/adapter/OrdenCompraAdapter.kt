@@ -15,7 +15,8 @@ interface OnOrdenAccion {
 
 class OrdenCompraAdapter (
 
-    private val listener: OnOrdenAccion
+    private val listener: OnOrdenAccion,
+    private val puedeGestionar: Boolean
 ) : RecyclerView.Adapter<OrdenCompraAdapter.OrdenViewHolder>() {
 
     private val ordenes = mutableListOf<OrdenCompra>()
@@ -62,15 +63,24 @@ class OrdenCompraAdapter (
 
             binding.chipPendienteSync.visibility = View.GONE
 
+            if (puedeGestionar) {
+                binding.root.setOnClickListener {
+                    listener.onEditar(orden)
+                }
+
             binding.root.setOnClickListener {
-                listener.onEditar(orden)
-
-            }
-
-            binding.root.setOnLongClickListener {
                 listener.onBorrar(orden)
                 true
             }
+
+            } else {
+                    binding.root.setOnClickListener(null)
+                    binding.root.setOnLongClickListener(null)
+
+            }
+
+                }
+
 
         }
 
@@ -78,6 +88,6 @@ class OrdenCompraAdapter (
     }
 
 
-}
+
 
 
