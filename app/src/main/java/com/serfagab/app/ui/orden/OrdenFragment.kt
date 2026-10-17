@@ -47,7 +47,9 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
 
     }
     private fun configurarLista(){
-        adapter = OrdenCompraAdapter(this)
+        adapter = OrdenCompraAdapter(
+            this,
+            puedeGestionar = puedeGestionar())
 
         binding.recyclerOrdenes.layoutManager =
             LinearLayoutManager(requireContext())
