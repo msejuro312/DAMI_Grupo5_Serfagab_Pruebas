@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "884447529430",
+    "project_id": "serfagab-grupo5",
+    "storage_bucket": "serfagab-grupo5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:884447529430:android:2778452b75c14fbd97bc77",
+        "android_client_info": {
+          "package_name": "com.serfagab.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "884447529430-e0khf9av7o49rv9isaut7a7va024pce2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.serfagab.app",
+            "certificate_hash": "20d6c754293b8b5bb0e754de2ffb02b0763f8060"
+          }
+        },
+        {
+          "client_id": "884447529430-bph1cg1jo5j0emebcej2djb6mbc6pm1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4szTyLdsvysOIz-1CeySwxPxLJJoLLKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "884447529430-bph1cg1jo5j0emebcej2djb6mbc6pm1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
