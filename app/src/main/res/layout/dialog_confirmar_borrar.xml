@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/textViewTituloBorrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/orden_borrar"
+        android:textColor="@color/azul_oscuro"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingBottom="12dp" />
+
+    <TextView
+        android:id="@+id/textViewMensajeBorrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/orden_confirmar_borrar"
+        android:textColor="@color/azul_oscuro"
+        android:textSize="@dimen/text_body" />
+
+
+
+</LinearLayout>

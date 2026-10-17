@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_fragment_inicio">
+
+
+        <TextView
+            android:id="@+id/textViewTituloFormulario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/orden_crear"
+            android:textColor="@color/azul_oscuro"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingBottom="16dp"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="3dp"
+        app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/orden_form_proveedor"
+            android:textColor="@color/azul_oscuro"
+            android:textStyle="bold"/>
+
+        <Spinner
+            android:id="@+id/spinnerProveedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:contentDescription="@string/orden_form_proveedor" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/orden_form_material"
+            android:textColor="@color/azul_oscuro"
+            android:textStyle="bold"/>
+
+
+        <Spinner
+            android:id="@+id/spinnerMaterial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:contentDescription="@string/orden_form_material" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/orden_form_cantidad"
+            android:textColor="@color/azul_oscuro"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextCantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/orden_form_cantidad"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_buscador" />
+
+        <Button
+            android:id="@+id/buttonAgregarLinea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/naranja"
+            android:text="Agregar material"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/contenedorLineasOrden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="3dp"
+            app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/orden_form_total"
+            android:textColor="@color/azul_oscuro"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/textViewTotalOrden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            android:text="S/ 0.00"
+            android:textColor="@color/naranja"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/orden_form_observaciones"
+            android:textColor="@color/azul_oscuro"
+            android:textStyle="bold" />
+
+
+
+        <EditText
+            android:id="@+id/editTextObservaciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/orden_form_observaciones"
+            android:inputType="textCapSentences|textImeMultiLine"
+            android:layout_gravity="top|start"
+            android:minHeight="100dp"
+            android:padding="10dp"
+            android:background="@drawable/bg_buscador" />
+
+    </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <Button
+            android:id="@+id/buttonGuardarOrden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/naranja"
+            android:text="@string/orden_crear"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/buttonCancelarOrden"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_boton_cancelar"
+            android:text="@string/boton_cancelar"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null" />
+
+
+    </LinearLayout>
+</ScrollView>
+
+
+
+
+

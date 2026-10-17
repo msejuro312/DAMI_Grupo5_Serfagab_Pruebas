@@ -115,6 +115,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/gap_medium"
+                android:text="@string/login_divisor_google"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_body"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonGoogle"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_dimen"
+                android:layout_marginTop="@dimen/gap_medium"
+                app:strokeColor="@color/naranja"
+                android:textColor="@color/naranja"
+                android:text="@string/button_google"
+                android:textAllCaps="false"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/top_margin_version"
                 android:text="@string/login_version"
                 android:gravity="center"

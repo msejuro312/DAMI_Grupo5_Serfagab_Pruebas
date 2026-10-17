@@ -131,6 +131,12 @@
     <string name="error_usuario_vacio">Ingresa tu usuario</string>
     <string name="error_password_vacio">Ingresa tu contraseña</string>
     <string name="error_credenciales">Usuario o contraseña incorrectos</string>
+    <string name="login_divisor_google">o continúa con Google</string>
+    <string name="button_google">Entrar con Google</string>
+    <string name="google_login_cancelado">Inicio de sesión con Google cancelado</string>
+    <string name="google_login_sin_token">Google no devolvió una credencial válida</string>
+    <string name="google_login_error">No se pudo iniciar sesión con Google</string>
+    <string name="google_login_error_guardar">No se pudo guardar la sesión local. Intenta nuevamente</string>
 
     <!--MAINACTIVITY-->
     <string name="bienvenida_formato">Bienvenido, %1$s %2$s</string>
@@ -145,5 +151,29 @@
     <string name="sincronizacion_programada">Sincronización programada...</string>
     <string name="sincronizacion_no_programada">No se pudo programar la sincronización</string>
     <string name="sincronizacion_ultima_formato">Última sincronización: %1$s</string>
+
+    <!-- ORDEN DE COMPRA -->
+    <string name="titulo_ordenes">ÓRDENES DE COMPRA</string>
+    <string name="sin_ordenes">No hay órdenes registradas</string>
+    <string name="orden_fecha">Fecha</string>
+    <string name="orden_proveedor">Proveedor</string>
+    <string name="orden_total">Total</string>
+    <string name="orden_estado">Estado</string>
+    <string name="orden_pendiente_sync">Pendiente de sincronizar</string>
+    <string name="orden_crear">Nueva orden</string>}
+    <string name="orden_editar">Editar orden</string>
+    <string name="orden_borrar">Eliminar orden</string>
+    <string name="orden_confirmar_borrar">¿Deseas eliminar esta orden de compra?</string>
+    <string name="orden_form_observaciones">Observaciones</string>
+    <string name="orden_form_proveedor">Seleccionar proveedor</string>
+    <string name="orden_form_material">Seleccionar material</string>
+    <string name="orden_form_cantidad">Cantidad</string>
+    <string name="orden_form_total">Total referencial</string>
+    <string name="orden_estado_pendiente">PENDIENTE</string>
+    <string name="orden_estado_enviado">ENVIADO</string>
+    <string name="orden_estado_anulado">ANULADO</string>
+
+
+
 
 </resources>
