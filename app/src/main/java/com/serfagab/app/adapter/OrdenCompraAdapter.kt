@@ -68,15 +68,13 @@ class OrdenCompraAdapter (
                     listener.onEditar(orden)
                 }
 
-            binding.root.setOnClickListener {
-                listener.onBorrar(orden)
-                true
-            }
-
+                binding.root.setOnLongClickListener {
+                    listener.onBorrar(orden)
+                    true
+                }
             } else {
-                    binding.root.setOnClickListener(null)
-                    binding.root.setOnLongClickListener(null)
-
+                binding.root.setOnClickListener(null)
+                binding.root.setOnLongClickListener(null)
             }
 
                 }

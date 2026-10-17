@@ -130,6 +130,7 @@ class OrdenFormularioFragment : Fragment() {
                 ordenEditando = orden
                 binding.textViewTituloFormulario.text =
                     getString(R.string.orden_editar)
+                binding.buttonGuardarOrden.text = getString(R.string.orden_guardar_cambios)
 
                 val posicion = proveedores.indexOfFirst {
                     it.idProveedor == orden.proveedor.idProveedor
@@ -180,6 +181,15 @@ class OrdenFormularioFragment : Fragment() {
 
         val material = materiales[posicion]
 
+        if (materialesSeleccionados.any { it.idMaterial == material.idMaterial }) {
+            Toast.makeText(
+                requireContext(),
+                "Ese material ya está en la orden",
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         materialesSeleccionados.add(material)
         cantidades.add(cantidad)
 
@@ -209,6 +219,22 @@ class OrdenFormularioFragment : Fragment() {
         ).text = "Subtotal: ${formatear(cantidad * material.precioReferencial)}"
 
         binding.contenedorLineasOrden.addView(linea)
+
+        linea.findViewById<android.widget.Button>(R.id.buttonQuitarLinea).setOnClickListener {
+            quitarLinea(material, linea)
+        }
+    }
+
+    private fun quitarLinea(material: Material, vistaLinea: View) {
+        val indice = materialesSeleccionados.indexOfFirst {
+            it.idMaterial == material.idMaterial
+        }
+        if (indice == -1) return
+
+        materialesSeleccionados.removeAt(indice)
+        cantidades.removeAt(indice)
+        binding.contenedorLineasOrden.removeView(vistaLinea)
+        actualizarTotal()
     }
 
     private fun guardar() {
@@ -237,6 +263,9 @@ class OrdenFormularioFragment : Fragment() {
             val usuario = ordenAnterior?.usuario
                 ?: OrdenStore(contexto)
                     .obtenerUsuario(SessionStore.idUsuario(contexto))
+                ?: SessionStore.datosUsuario(contexto)?.also {
+                    OrdenStore(contexto).guardarUsuarioLocal(it)
+                }
 
             if (usuario == null) {
                 if (_binding == null) return@Thread

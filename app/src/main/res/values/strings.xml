@@ -172,6 +172,8 @@
     <string name="orden_estado_pendiente">PENDIENTE</string>
     <string name="orden_estado_enviado">ENVIADO</string>
     <string name="orden_estado_anulado">ANULADO</string>
+    <string name="orden_guardar">Guardar orden</string>
+    <string name="orden_guardar_cambios">Guardar cambios</string>
 
 
 

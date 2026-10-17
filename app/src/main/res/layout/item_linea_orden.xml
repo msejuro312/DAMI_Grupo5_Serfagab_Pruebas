@@ -14,36 +14,55 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/textViewMaterialLinea"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Material seleccionado"
-            android:textColor="@color/azul_oscuro"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewCantidadLinea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Cantidad: 1"
-            android:textColor="@color/azul_oscuro"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/textViewMaterialLinea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Material seleccionado"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewSubtotalLinea"
-            android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/textViewCantidadLinea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Cantidad: 1"
+                android:textColor="@color/azul_oscuro"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textViewSubtotalLinea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Subtotal: S/ 0.00"
+                android:textColor="@color/naranja"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonQuitarLinea"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Subtotal: S/ 0.00"
+            android:layout_marginStart="8dp"
+            android:text="✕"
             android:textColor="@color/naranja"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:contentDescription="Quitar material" />
 
     </LinearLayout>
 

@@ -3,6 +3,7 @@ package com.serfagab.app.util
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import com.serfagab.app.model.Tipo
 import com.serfagab.app.model.Usuario
 import java.security.KeyStore
 import java.util.Base64
@@ -76,8 +77,8 @@ object SessionStore {
     fun haySesion(context: Context): Boolean {
         val prefs = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE)
         return prefs.contains(CLAVE_ID_USUARIO) &&
-            prefs.getInt(CLAVE_ID_USUARIO, 0) > 0 &&
-            prefs.getBoolean(CLAVE_ACTIVO, false)
+                prefs.getInt(CLAVE_ID_USUARIO, 0) > 0 &&
+                prefs.getBoolean(CLAVE_ACTIVO, false)
     }
 
     fun idUsuario(context: Context): Int {
@@ -174,5 +175,24 @@ object SessionStore {
             .build()
         generador.init(spec)
         return generador.generateKey()
+    }
+
+    fun datosUsuario(context: Context): Usuario? {
+        val prefs = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE)
+        val id = prefs.getInt(CLAVE_ID_USUARIO, -1)
+        if (id == -1) return null
+        return Usuario(
+            idUsuario = id,
+            tipo = Tipo(
+                prefs.getInt(CLAVE_ID_TIPO, 0),
+                prefs.getString(CLAVE_DESCRIPCION_TIPO, "") ?: ""
+            ),
+            nombres = prefs.getString(CLAVE_NOMBRES, "") ?: "",
+            apellidos = prefs.getString(CLAVE_APELLIDOS, "") ?: "",
+            email = prefs.getString(CLAVE_EMAIL, "") ?: "",
+            login = prefs.getString(CLAVE_LOGIN, "") ?: "",
+            clave = "",
+            activo = prefs.getBoolean(CLAVE_ACTIVO, true)
+        )
     }
 }

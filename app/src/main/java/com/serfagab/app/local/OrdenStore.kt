@@ -323,7 +323,24 @@ class OrdenStore(context: Context) {
         return ordenes
     }
 
-    fun esEditable(orden: OrdenCompra): Boolean = orden.estado.equals("PENDIENTE", ignoreCase = true) && !orden.pendienteSync
+    fun esEditable(orden: OrdenCompra): Boolean = orden.estado.equals("PENDIENTE", ignoreCase = true) && orden.pendienteSync
+
+
+    fun guardarUsuarioLocal(usuario: Usuario): Long {
+        val valores = ContentValues().apply {
+            put(Contract.COLUMNA_USUARIO_ID, usuario.idUsuario)
+            put(Contract.COLUMNA_USUARIO_ID_TIPO, usuario.tipo.idTipo)
+            put(Contract.COLUMNA_USUARIO_NOMBRES, usuario.nombres)
+            put(Contract.COLUMNA_USUARIO_APELLIDOS, usuario.apellidos)
+            put(Contract.COLUMNA_USUARIO_EMAIL, usuario.email)
+            put(Contract.COLUMNA_USUARIO_LOGIN, usuario.login)
+            put(Contract.COLUMNA_USUARIO_CLAVE, usuario.clave)
+            put(Contract.COLUMNA_USUARIO_ACTIVO, if (usuario.activo) 1 else 0)
+        }
+        return dbHelper.writableDatabase.insertWithOnConflict(
+            Contract.TABLA_USUARIO, null, valores, SQLiteDatabase.CONFLICT_REPLACE
+        )
+    }
 
 
 
