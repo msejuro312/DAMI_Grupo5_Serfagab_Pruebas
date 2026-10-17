@@ -14,6 +14,7 @@ import com.serfagab.app.model.OrdenCompra
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.serfagab.app.util.SessionStore
 
+
 class OrdenFragment : Fragment(), OnOrdenAccion {
 
     private var _binding: FragmentOrdenBinding? = null
@@ -40,7 +41,10 @@ class OrdenFragment : Fragment(), OnOrdenAccion {
             if (puedeGestionar()) View.VISIBLE else View.GONE
 
         binding.fabNuevaOrden.setOnClickListener {
-            //Manuel e6
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.ContenedorFragmento, OrdenFormularioFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
 
