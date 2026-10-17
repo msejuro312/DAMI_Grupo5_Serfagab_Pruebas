@@ -238,7 +238,7 @@ class OrdenStore(context: Context) {
         )
     }
 
-    private fun obtenerUsuario(idUsuario: Int): Usuario? {
+    fun obtenerUsuario(idUsuario: Int): Usuario? {
         var usuario: Usuario? = null
         dbHelper.readableDatabase.query(
             Contract.TABLA_USUARIO,
