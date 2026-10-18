@@ -41,6 +41,14 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (SessionStore.haySesion(this)) {
+            val usuario = SessionStore.datosUsuario(this)
+            if (usuario != null && SessionStore.restaurarSesion(this)) {
+                abrirPrincipal(usuario)
+                return
+            }
+        }
+
         configurarGoogleSignIn()
 
         binding.buttonIngresar.setOnClickListener {
