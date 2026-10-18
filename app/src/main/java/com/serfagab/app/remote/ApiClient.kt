@@ -100,6 +100,10 @@ object ApiClient {
         return ejecutar(apiService.listarOrdenesPorUsuario(idUsuario))
     }
 
+    fun obtenerOrden(idOrden: Int): Respuesta<OrdenCompra> {
+        return ejecutar(apiService.obtenerOrden(idOrden))
+    }
+
     fun misOrdenes(idUsuario: Int): Respuesta<List<OrdenCompra>> {
         return listarOrdenesPorUsuario(idUsuario)
     }
@@ -139,7 +143,7 @@ object ApiClient {
 
     private fun obtenerMensajeError(codigo: Int): String {
         return when (codigo) {
-            400 -> "Los datos del material no son validos"
+            400 -> "El servidor rechazo los datos enviados"
             401 -> "Credenciales invalidas o sesion no autorizada"
             403 -> "No tiene permisos para realizar esta operacion"
             404 -> "El recurso solicitado no existe"

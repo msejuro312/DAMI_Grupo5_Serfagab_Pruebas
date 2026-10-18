@@ -16,7 +16,7 @@ class OrdenStore(context: Context) {
     private val proveedorStore = ProveedorStore(context.applicationContext)
     private val detalleStore = OrdenDetalleStore(context.applicationContext)
 
-    fun insertarOrden(orden: OrdenCompra): Long {
+    fun insertarOrden(orden: OrdenCompra, pendienteSync: Boolean = true): Long {
         val db = dbHelper.writableDatabase
         var idOrden = -1L
 
@@ -24,7 +24,7 @@ class OrdenStore(context: Context) {
         try {
             val valores = ContentValues().apply {
                 if (orden.idOrdenCompra != 0) {
-                    put(Contract.COLUMNA_ORDEN_COMPRA_ID, orden.idOrdenCompra)
+                    put(Contract.COLUMNA_ORDEN_COMPRA_ID, if (orden.idOrdenCompra == 0) siguienteIdTemporal(db) else orden.idOrdenCompra)
 
                 }
                     put(Contract.COLUMNA_ORDEN_COMPRA_ID_PROVEEDOR, orden.proveedor.idProveedor)
@@ -212,6 +212,64 @@ class OrdenStore(context: Context) {
         return filas
     }
 
+    private fun siguienteIdTemporal(db: SQLiteDatabase): Int {
+        val minimo = db.rawQuery(
+            "SELECT MIN(${Contract.COLUMNA_ORDEN_COMPRA_ID}) FROM ${Contract.TABLA_ORDEN_COMPRA}", null
+        ).use { c -> if (c.moveToFirst() && !c.isNull(0)) c.getInt(0) else 0 }
+        return if (minimo < 0) minimo - 1 else -2
+    }
+
+    fun cambiarId(idLocal: Int, idReal: Int) {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            db.update(
+                Contract.TABLA_ORDEN_COMPRA,
+                ContentValues().apply { put(Contract.COLUMNA_ORDEN_COMPRA_ID, idReal) },
+                "${Contract.COLUMNA_ORDEN_COMPRA_ID} = ?", arrayOf(idLocal.toString())
+            )
+            db.update(
+                Contract.TABLA_DETALLE_ORDEN,
+                ContentValues().apply { put(Contract.COLUMNA_DETALLE_ORDEN_ID_ORDEN, idReal) },
+                "${Contract.COLUMNA_DETALLE_ORDEN_ID_ORDEN} = ?", arrayOf(idLocal.toString())
+            )
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
+    fun reemplazarDe(idUsuario: Int, ordenes: List<OrdenCompra>) {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        try {
+            val pendientes = mutableSetOf<Int>()
+            val sincronizadas = mutableListOf<Int>()
+            db.query(
+                Contract.TABLA_ORDEN_COMPRA,
+                arrayOf(Contract.COLUMNA_ORDEN_COMPRA_ID, Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC),
+                "${Contract.COLUMNA_ORDEN_COMPRA_ID_USUARIO} = ?",
+                arrayOf(idUsuario.toString()), null, null, null
+            ).use { c ->
+                while (c.moveToNext()) {
+                    if (c.getInt(1) ==1) pendientes.add(c.getInt(0)) else sincronizadas.add(c.getInt(0))
+                }
+            }
+            sincronizadas.forEach { id ->
+                detalleStore.borrarDe(db, id)
+                db.delete(
+                    Contract.TABLA_ORDEN_COMPRA,
+                    "${Contract.COLUMNA_ORDEN_COMPRA_ID} = ?", arrayOf(id.toString())
+                )
+            }
+            ordenes.filter { it.idOrdenCompra !in pendientes }
+                .forEach { insertarOrden(it, pendienteSync = false) }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
     fun marcarSincronizada(idOrdenCompra: Int): Int {
         val valores = ContentValues().apply {
             put(Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC, 0)
@@ -341,12 +399,5 @@ class OrdenStore(context: Context) {
             Contract.TABLA_USUARIO, null, valores, SQLiteDatabase.CONFLICT_REPLACE
         )
     }
-
-
-
-
-
-
-
 
 }

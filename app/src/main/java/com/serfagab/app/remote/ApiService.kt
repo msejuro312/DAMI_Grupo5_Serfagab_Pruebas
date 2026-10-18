@@ -46,6 +46,9 @@ interface ApiService {
     @GET("api/proveedores")
     fun listarProveedores(): Call<List<Proveedor>>
 
+    @GET("api/ordenes-compra/{idOrden}")
+    fun obtenerOrden(@Path("idOrden") idOrden: Int): Call<OrdenCompra>
+
     @GET("api/ordenes-compra/usuario/{idUsuario}")
     fun listarOrdenesPorUsuario(@Path("idUsuario") idUsuario: Int): Call<List<OrdenCompra>>
 

@@ -36,6 +36,7 @@ object SessionStore {
 
     private var credencialLogin: String? = null
     private var credencialClave: String? = null
+    const val ID_USUARIO_GOOGLE = 900001
 
     fun guardarSesion(context: Context, usuario: Usuario, login: String, clave: String) {
         val prefs = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE)
@@ -195,4 +196,6 @@ object SessionStore {
             activo = prefs.getBoolean(CLAVE_ACTIVO, true)
         )
     }
+
+    fun esSesionGoogle(context: Context): Boolean = idUsuario(context) == ID_USUARIO_GOOGLE
 }
