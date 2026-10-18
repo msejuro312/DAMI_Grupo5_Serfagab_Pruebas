@@ -26,6 +26,7 @@ object ApiClient {
     private const val MENSAJE_EXITO = "Operación exitosa"
     private const val MENSAJE_CONEXION = "No se pudo conectar con el servidor"
     private const val MENSAJE_RESPUESTA = "La respuesta del servidor no es válida"
+    private const val TAMANO_PAGINA = 100
 
     private val apiService = RetrofitClient.apiService
 
@@ -55,6 +56,24 @@ object ApiClient {
 
     fun activarMaterial(id: Int): Respuesta<Material> {
         return ejecutar(apiService.activarMaterial(id))
+    }
+
+    fun listarTodosLosMateriales(): Respuesta<List<Material>> {
+        val materiales = mutableListOf<Material>()
+        var pagina = 0
+
+        while (true) {
+            val respuesta = ejecutar(apiService.listarMaterialesPaginado(pagina, TAMANO_PAGINA))
+            val datos = respuesta.datos
+            if (!respuesta.exito || datos == null) {
+                return Respuesta(false, null, respuesta.codigo, respuesta.mensaje)
+            }
+
+            materiales.addAll(datos.content)
+            if (datos.last || datos.content.isEmpty()) break
+            pagina++
+        }
+        return Respuesta(true, materiales, 200, MENSAJE_EXITO)
     }
 
     fun obtenerMateriales(): Respuesta<List<Material>> {
@@ -120,6 +139,7 @@ object ApiClient {
 
     private fun obtenerMensajeError(codigo: Int): String {
         return when (codigo) {
+            400 -> "Los datos del material no son validos"
             401 -> "Credenciales invalidas o sesion no autorizada"
             403 -> "No tiene permisos para realizar esta operacion"
             404 -> "El recurso solicitado no existe"

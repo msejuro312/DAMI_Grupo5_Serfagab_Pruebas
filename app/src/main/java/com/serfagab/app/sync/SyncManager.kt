@@ -15,7 +15,7 @@ object SyncManager {
 
         val tipos = ApiClient.listarTiposMaterial()
         val proveedores = ApiClient.listarProveedores()
-        val materiales = ApiClient.listarMateriales()
+        val materiales = ApiClient.listarTodosLosMateriales()
 
         tipos.datos?.let { TipoMaterialStore(context).reemplazarTodos(it) }
         proveedores.datos?.let { ProveedorStore(context).reemplazarTodos(it) }

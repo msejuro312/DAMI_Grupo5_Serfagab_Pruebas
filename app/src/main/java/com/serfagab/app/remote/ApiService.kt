@@ -36,6 +36,10 @@ interface ApiService {
     @PATCH("api/materiales/{id}/activar")
     fun activarMaterial(@Path("id") id: Int): Call<Material>
 
+    @GET("api/materiales/paginado")
+    fun listarMaterialesPaginado(@Query("page") page: Int,
+                                 @Query("size") size: Int): Call<PaginaMateriales>
+
     @GET("api/tipos-material")
     fun listarTiposMaterial(): Call<List<TipoMaterial>>
 
