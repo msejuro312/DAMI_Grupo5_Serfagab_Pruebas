@@ -61,7 +61,8 @@ class OrdenCompraAdapter (
 
             binding.chipEstadoOrden.text = orden.estado.uppercase(Locale.ROOT)
 
-            binding.chipPendienteSync.visibility = View.GONE
+            binding.chipPendienteSync.visibility =
+                if (orden.pendienteSync) View.VISIBLE else View.GONE
 
             if (puedeGestionar) {
                 binding.root.setOnClickListener {
