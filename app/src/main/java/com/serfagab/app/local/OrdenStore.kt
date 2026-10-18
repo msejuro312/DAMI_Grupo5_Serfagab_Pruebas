@@ -22,31 +22,25 @@ class OrdenStore(context: Context) {
 
         db.beginTransaction()
         try {
-            val valores = ContentValues().apply {
-                if (orden.idOrdenCompra != 0) {
-                    put(Contract.COLUMNA_ORDEN_COMPRA_ID, if (orden.idOrdenCompra == 0) siguienteIdTemporal(db) else orden.idOrdenCompra)
+            val idAGuardar = if (orden.idOrdenCompra == 0) siguienteIdTemporal(db) else orden.idOrdenCompra
 
-                }
+            val valores = ContentValues().apply {
+                    put(Contract.COLUMNA_ORDEN_COMPRA_ID, idAGuardar)
                     put(Contract.COLUMNA_ORDEN_COMPRA_ID_PROVEEDOR, orden.proveedor.idProveedor)
                     put(Contract.COLUMNA_ORDEN_COMPRA_ID_USUARIO, orden.usuario.idUsuario)
                     put(Contract.COLUMNA_ORDEN_COMPRA_OBSERVACIONES, orden.observaciones)
                     put(Contract.COLUMNA_ORDEN_COMPRA_FECHA, orden.fecha)
                     put(Contract.COLUMNA_ORDEN_COMPRA_TOTAL, orden.total)
                     put(Contract.COLUMNA_ORDEN_COMPRA_ESTADO, orden.estado)
-                    put(Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC, 1)
+                    put(Contract.COLUMNA_ORDEN_COMPRA_PENDIENTE_SYNC, if (pendienteSync) 1 else 0)
                 }
 
                 idOrden = db.insert(Contract.TABLA_ORDEN_COMPRA, null, valores)
 
                 if (idOrden == -1L) {
                     throw IllegalStateException("No se pudo insertar la orden")
-
                 }
-                detalleStore.insertarVarias(
-                    db,
-                    idOrden.toInt(),
-                    orden.detalles
-                )
+                detalleStore.insertarVarias(db, idAGuardar, orden.detalles)
                 db.setTransactionSuccessful()
             } finally {
                 db.endTransaction()

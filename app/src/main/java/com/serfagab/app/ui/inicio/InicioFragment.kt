@@ -15,6 +15,8 @@ import com.serfagab.app.local.OrdenStore
 import com.serfagab.app.local.ProveedorStore
 import com.serfagab.app.local.TipoMaterialStore
 import com.serfagab.app.sync.SincronizaScheduler
+import com.serfagab.app.ui.material.MaterialesFragment
+import com.serfagab.app.ui.orden.OrdenFormularioFragment
 import com.serfagab.app.util.SessionStore
 import java.text.DateFormat
 import java.util.Date
@@ -36,11 +38,41 @@ class InicioFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         mostrarBienvenida()
         cargarConteos()
+        configurarAccesosRapidos()
 
         mostrarEstadoSincronizacion()
 
         binding.buttonSincronizar.setOnClickListener {
             programarSincronizacion()
+        }
+    }
+
+    private fun configurarAccesosRapidos() {
+        binding.accesoNuevaOrden.setOnClickListener {
+            if (!SessionStore.esAdmin(requireContext())) {
+                Toast.makeText(requireContext(), R.string.solo_administrador, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.ContenedorFragmento, OrdenFormularioFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.accesoNuevaMaterial.setOnClickListener {
+            if (!SessionStore.esAdmin(requireContext())) {
+                Toast.makeText(requireContext(), R.string.solo_administrador, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            val fragment = MaterialesFragment().apply {
+                arguments = Bundle().apply {
+                    putBoolean(MaterialesFragment.ARG_ABRIR_FORMULARIO, true)
+                }
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.ContenedorFragmento, fragment)
+                .addToBackStack(null)
+                .commit()
         }
     }
 

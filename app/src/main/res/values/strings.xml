@@ -78,6 +78,7 @@
     <string name="error_material_guardar">No se pudo guardar el material</string>
     <string name="error_sin_tipos_material">No hay tipos de material registrados</string>
     <string name="stock_formato">%1$.2f</string>
+    <string name="solo_administrador">Solo el administrador puede realizar esta accion</string>
 
     <!-- ITEM:MATERIAL-->
     <string name="numero_id">Material #0</string>
