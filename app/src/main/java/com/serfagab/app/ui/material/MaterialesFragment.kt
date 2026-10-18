@@ -39,11 +39,16 @@ class MaterialesFragment : Fragment() {
     private var tiposMaterial: List<TipoMaterial> = emptyList()
     private var filtroEstado = FILTRO_TODOS
     private var idTipoSeleccionado = TIPO_TODOS
+    private var abrirFormularioPendiente = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         materialStore = MaterialStore(requireContext().applicationContext)
         tipoMaterialStore = TipoMaterialStore(requireContext().applicationContext)
+
+        if (savedInstanceState == null) {
+            abrirFormularioPendiente = arguments?.getBoolean(ARG_ABRIR_FORMULARIO, false) ?: false
+        }
     }
 
     override fun onCreateView(
@@ -124,6 +129,10 @@ class MaterialesFragment : Fragment() {
                 listaCompleta = materiales
                 armarChips()
                 aplicarFiltros()
+                if (abrirFormularioPendiente) {
+                    abrirFormularioPendiente = false
+                    mostrarFormulario(null)
+                }
             }
         }.start()
     }
@@ -423,5 +432,6 @@ class MaterialesFragment : Fragment() {
         private const val FILTRO_INACTIVOS = 2
         private const val TIPO_TODOS = 0
         private const val RECARGA_TRAS_SYNC_MS = 7_000L
+        const val ARG_ABRIR_FORMULARIO = "abrir_formulario"
     }
 }

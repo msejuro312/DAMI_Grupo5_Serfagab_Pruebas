@@ -77,19 +77,17 @@ object SyncManager {
 
     private fun subirOrden(store: OrdenStore, orden: OrdenCompra): Boolean {
         val cabecera = orden.copy(detalles = emptyList())
+        var idServidor = orden.idOrdenCompra
 
-        val idServidor: Int
-        if (orden.idOrdenCompra < 0) {
-            val creada = ApiClient.crearOrdenCompra(
-                orden.usuario.idUsuario, cabecera.copy(idOrdenCompra = 0)
-            )
-            val ordenServidor = creada.datos
-            if (!creada.exito || ordenServidor == null) return false
-            idServidor = ordenServidor.idOrdenCompra
-            store.cambiarId(orden.idOrdenCompra, idServidor)
+        if (idServidor > 0) {
+            val editada = ApiClient.editarOrden(idServidor, cabecera)
+            if (editada.codigo == 404) {
+                idServidor = crearEnServidor(store, orden, cabecera) ?: return false
+            } else if (!editada.exito) {
+                return false
+            }
         } else {
-            idServidor = orden.idOrdenCompra
-            if (!ApiClient.editarOrden(idServidor, cabecera).exito)  return false
+            idServidor = crearEnServidor(store, orden, cabecera) ?: return false
         }
 
         val existente = ApiClient.obtenerOrden(idServidor)
@@ -121,5 +119,15 @@ object SyncManager {
         ordenes.firstOrNull()?.usuario?.let { store.guardarUsuarioLocal(it.copy(clave = "")) }
         store.reemplazarDe(idUsuario, ordenes)
         return respuesta.exito
+    }
+
+    private fun crearEnServidor(store: OrdenStore, orden: OrdenCompra, cabecera: OrdenCompra): Int? {
+        val creada = ApiClient.crearOrdenCompra(
+            orden.usuario.idUsuario, cabecera.copy(idOrdenCompra = 0)
+        )
+        val ordenServidor = creada.datos
+        if (!creada.exito || ordenServidor == null) return  null
+        store.cambiarId(orden.idOrdenCompra, ordenServidor.idOrdenCompra)
+        return ordenServidor.idOrdenCompra
     }
 }
