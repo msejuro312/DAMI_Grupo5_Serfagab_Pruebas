@@ -11,6 +11,8 @@
     <string name="login_version">SERFABAG S.A.C.-Version 1.0</string>
     <string name="hint_nombre_usuario">Coloque el nombre de Usuario</string>
     <string name="hint_password">Coloque la contraseña </string>
+    <string name="default_web_client_id">TU_ID_DE_CLIENTE_WEB</string>
+    <string name="error_formato">Error: %1$s</string>
 
     <!--STRING DE MAIN-->
     <string name="bienvenida_predeterminada">SERFAGAB - Bienvenido, ""</string>

@@ -2,16 +2,22 @@ package com.serfagab.app.sync
 
 import android.content.Context
 import com.serfagab.app.local.MaterialStore
+import com.serfagab.app.local.OrdenStore
 import com.serfagab.app.local.ProveedorStore
 import com.serfagab.app.local.TipoMaterialStore
 import com.serfagab.app.model.Material
+import com.serfagab.app.model.OrdenCompra
 import com.serfagab.app.remote.ApiClient
 import com.serfagab.app.remote.Respuesta
+import com.serfagab.app.util.SessionStore
 
 object SyncManager {
 
     fun sincronizarCatalogos(context: Context): Boolean {
-        val subidaCorrecta = subirMaterialesPendientes(context)
+        if (SessionStore.esSesionGoogle(context)) return true
+
+        val subidasMateriales = subirMaterialesPendientes(context)
+        val subidaOrdenes = runCatching { subirOrdenesPendientes(context) }.getOrDefault(false)
 
         val tipos = ApiClient.listarTiposMaterial()
         val proveedores = ApiClient.listarProveedores()
@@ -21,7 +27,9 @@ object SyncManager {
         proveedores.datos?.let { ProveedorStore(context).reemplazarTodos(it) }
         materiales.datos?.let { MaterialStore(context).reemplazarTodos(it) }
 
-        return subidaCorrecta && tipos.exito && proveedores.exito && materiales.exito
+        val ordenesDescargadas = runCatching { descargarOrdenes(context) }.getOrDefault(false)
+
+        return subidasMateriales && subidaOrdenes && tipos.exito && proveedores.exito && materiales.exito && ordenesDescargadas
     }
 
     private fun subirMaterialesPendientes(context: Context): Boolean {
@@ -56,5 +64,62 @@ object SyncManager {
         } else {
             ApiClient.desactivarMaterial(material.idMaterial)
         }
+    }
+
+    private fun subirOrdenesPendientes(context: Context): Boolean {
+        val store = OrdenStore(context)
+        var todoCorrecto = true
+        store.listarPendientes().forEach { orden ->
+            if (!subirOrden(store, orden)) todoCorrecto = false
+        }
+        return todoCorrecto
+    }
+
+    private fun subirOrden(store: OrdenStore, orden: OrdenCompra): Boolean {
+        val cabecera = orden.copy(detalles = emptyList())
+
+        val idServidor: Int
+        if (orden.idOrdenCompra < 0) {
+            val creada = ApiClient.crearOrdenCompra(
+                orden.usuario.idUsuario, cabecera.copy(idOrdenCompra = 0)
+            )
+            val ordenServidor = creada.datos
+            if (!creada.exito || ordenServidor == null) return false
+            idServidor = ordenServidor.idOrdenCompra
+            store.cambiarId(orden.idOrdenCompra, idServidor)
+        } else {
+            idServidor = orden.idOrdenCompra
+            if (!ApiClient.editarOrden(idServidor, cabecera).exito)  return false
+        }
+
+        val existente = ApiClient.obtenerOrden(idServidor)
+        val ordenActual = existente.datos
+        if (!existente.exito || ordenActual == null) return false
+        val yaSubidos = ordenActual.detalles.map { it.material.idMaterial }.toSet()
+
+        val lineasCorrectas = orden.detalles
+            .filter { it.material.idMaterial !in yaSubidos }
+            .all { detalle ->
+                ApiClient.agregarDetalleOrden(
+                    idServidor,
+                    detalle.copy(idDetalle = 0, ordenCompra = cabecera.copy(idOrdenCompra = idServidor))
+                ).exito
+            }
+        if (!lineasCorrectas) return false
+        store.marcarSincronizada(idServidor)
+        return true
+    }
+
+    private fun descargarOrdenes(context: Context): Boolean {
+        val idUsuario = SessionStore.idUsuario(context)
+        if (idUsuario <= 0) return true
+
+        val respuesta = ApiClient.listarOrdenesPorUsuario(idUsuario)
+        val ordenes = respuesta.datos ?: return false
+        val store = OrdenStore(context)
+
+        ordenes.firstOrNull()?.usuario?.let { store.guardarUsuarioLocal(it.copy(clave = "")) }
+        store.reemplazarDe(idUsuario, ordenes)
+        return respuesta.exito
     }
 }

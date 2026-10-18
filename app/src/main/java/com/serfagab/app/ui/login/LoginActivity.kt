@@ -98,6 +98,7 @@ class LoginActivity : AppCompatActivity() {
 
                 if (respuesta.exito && usuario != null) {
                     SessionStore.guardarSesion(applicationContext, usuario, login, clave)
+                    SincronizaScheduler.programarPeriodico(applicationContext)
                     try {
                         val sincronizado = SyncManager.sincronizarCatalogos(applicationContext)
                         if (!sincronizado) {
@@ -105,6 +106,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     } catch (e: Exception) {
                         android.util.Log.e("Login", "Error al sincronizar", e)
+                        SincronizaScheduler.programar(applicationContext)
                     }
                 }
                 runOnUiThread {
@@ -120,7 +122,7 @@ class LoginActivity : AppCompatActivity() {
                 android.util.Log.e("Login", "Error en login", e)
                 runOnUiThread {
                     bloquearBotones(false)
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, getString(R.string.error_formato, e.message.orEmpty()), Toast.LENGTH_LONG).show()
                 }
             }
         }.start()
@@ -186,7 +188,7 @@ class LoginActivity : AppCompatActivity() {
             val apellidos = if (partes.size > 1) partes.drop(1).joinToString(" ") else ""
 
             val usuario = Usuario(
-                idUsuario = ID_USUARIO_GOOGLE,
+                idUsuario = SessionStore.ID_USUARIO_GOOGLE,
                 tipo = Tipo(idTipo = 0, descripcion = TIPO_USUARIO_GOOGLE),
                 nombres = nombres,
                 apellidos = apellidos,
@@ -195,6 +197,7 @@ class LoginActivity : AppCompatActivity() {
                 clave = "",
                 activo = true
             )
+            SincronizaScheduler.cancelarTodo(applicationContext)
             SessionStore.guardarSesion(applicationContext, usuario, usuario.login, "")
             abrirPrincipal(usuario)
         } catch (e: Exception) {
@@ -226,7 +229,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val ID_USUARIO_GOOGLE = 900001
         private const val TIPO_USUARIO_GOOGLE = "usuario"
     }
 }
